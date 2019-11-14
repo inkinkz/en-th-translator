@@ -1,0 +1,87 @@
+{
+  "name": "en-th-translator",
+  "version": "0.1.0",
+  "private": true,
+  "author": {
+    "name": "Inkz",
+    "email": "nithiphorn.n@gmail.com",
+    "url": "www.instagram.com/inkinkz"
+  },
+  "build": {
+    "appId": "com.inkz.app",
+    "productName": "Patent Translator",
+    "copyright": "Copyright © 2019 ${author}",
+    "mac": {
+      "category": "utilities"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "public"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "dependencies": {
+    "draft-js": "^0.11.2",
+    "electron-is-dev": "^1.1.0",
+    "mdbreact": "^4.22.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-draft-wysiwyg": "^1.13.2",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0"
+  },
+  "homepage": "./",
+  "main": "public/electron.js",
+  "scripts": {
+    "start": "rescripts start",
+    "build": "rescripts build",
+    "test": "rescripts test",
+    "eject": "react-scripts eject",
+    "dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "yarn build",
+    "electron-pack": "electron-builder -m"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@rescripts/cli": "^0.0.13",
+    "@rescripts/rescript-env": "^0.0.11",
+    "@types/draft-js": "^0.10.37",
+    "@types/node": "^12.12.6",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "@types/react-draft-wysiwyg": "^1.13.0",
+    "@types/react-router-dom": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "concurrently": "^5.0.0",
+    "electron": "^7.1.0",
+    "electron-builder": "^22.1.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.7.2",
+    "wait-on": "^3.3.0"
+  }
+}
