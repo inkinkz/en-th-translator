@@ -1,6 +1,6 @@
 import React from "react";
-import "../App.css";
-import "./Home.css";
+import "../App.scss";
+import "./Home.scss";
 import ImportModal from "./ImportModal";
 import { RouteComponentProps } from "react-router";
 // import FileViewer from "react-file-viewer";
@@ -13,16 +13,16 @@ const Home = (props: RouteComponentProps) => {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Best Editor</p>
         <ImportModal />
-        {/* <div
+        <div
           className="App-link"
           style={{ cursor: "pointer" }}
           onClick={() => props.history.push("/edit")}
         >
           Open new file..
-        </div> */}
-        <button type="button" className="btn color-primary">
+        </div>
+        {/* <button type="button" className="btn color-primary">
           Open new file
-        </button>
+        </button> */}
       </header>
     </div>
   );

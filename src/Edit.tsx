@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./App.scss";
 import { Editor, EditorState } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
