@@ -1,8 +1,8 @@
 import React from "react";
 import "./App.scss";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./Home/Home";
-import Edit from "./Edit";
+import Edit from "./Editor/Edit";
 
 function App() {
   return (
