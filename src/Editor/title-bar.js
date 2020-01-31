@@ -6,6 +6,7 @@ import * as ej2_splitbuttons_1 from "@syncfusion/ej2-splitbuttons";
 /**
  * Represents document editor title bar.
  */
+
 export const TitleBar = /** @class */ (function() {
   function TitleBar(element, docEditor, isShareNeeded, isRtl) {
     const _this = this;
@@ -14,6 +15,10 @@ export const TitleBar = /** @class */ (function() {
       let downloadToolTip;
       let printText;
       let printToolTip;
+      let homeText;
+      let homeToolTip;
+      let manageText;
+      let manageToolTip;
       let openText;
       let documentTileText;
       if (!_this.isRtl) {
@@ -21,6 +26,10 @@ export const TitleBar = /** @class */ (function() {
         downloadToolTip = "Download this document.";
         printText = "Print";
         printToolTip = "Print this document (Ctrl+P).";
+        homeText = "Home";
+        homeToolTip = "Back to Home Page";
+        manageText = "Manage Translations";
+        manageToolTip = "To Manage Translation Page";
         openText = "Open";
         documentTileText =
           "Document Name. Click or tap to rename this document.";
@@ -59,8 +68,24 @@ export const TitleBar = /** @class */ (function() {
       const btnStyles =
         btnFloatStyle +
         "background: transparent;box-shadow:none; font-family: inherit;border-color: transparent;" +
-        "border-radius: 2px;color:inherit;font-size:12px;text-transform:capitalize;height:28px;font-weight:400;margin-top: 2px;";
-      // tslint:disable-next-line:max-line-length
+        "border-radius: 2px;color:inherit;font-size:14px;text-transform:capitalize;height:28px;font-weight:400;margin-top: 2px;";
+
+      _this.manage = _this.addButton(
+        iconCss,
+        manageText,
+        btnStyles,
+        "de-print",
+        manageToolTip,
+        false
+      );
+      _this.home = _this.addButton(
+        iconCss,
+        homeText,
+        btnStyles,
+        "de-print",
+        homeToolTip,
+        false
+      );
       _this.print = _this.addButton(
         "e-de-icon-Print " + iconCss,
         printText,
@@ -99,6 +124,8 @@ export const TitleBar = /** @class */ (function() {
     };
     this.wireEvents = function() {
       _this.print.element.addEventListener("click", _this.onPrint);
+      _this.home.element.addEventListener("click", _this.onHome);
+      _this.manage.element.addEventListener("click", _this.onManage);
       _this.open.element.addEventListener("click", function(e) {
         if (e.target.id === "de-open") {
           const fileUpload = document.getElementById("uploadfileButton");
@@ -140,6 +167,12 @@ export const TitleBar = /** @class */ (function() {
     };
     this.onPrint = function() {
       _this.documentEditor.print();
+    };
+    this.onHome = function() {
+      window.location.href = "/";
+    };
+    this.onManage = function() {
+      window.location.href = "/manage";
     };
     this.onExportClick = function(args) {
       const value = args.item.id;
@@ -231,5 +264,3 @@ export const TitleBar = /** @class */ (function() {
   };
   return TitleBar;
 })();
-
-// export const TitleBar;

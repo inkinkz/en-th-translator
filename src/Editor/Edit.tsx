@@ -79,7 +79,11 @@ class Editor extends SampleBase {
       //   <button onClick={this.onImportClick.bind(this)}>Import</button>
       <div className="control-pane">
         <div className="control-section">
-          <div id="documenteditor_titlebar" className="e-de-ctn-title"></div>
+          <div
+            id="documenteditor_titlebar"
+            className="e-de-ctn-title"
+            style={{ background: "#09b392", fontSize: "1rem" }}
+          ></div>
           <div id="documenteditor_container_body">
             <DocumentEditorContainerComponent
               id="container"
