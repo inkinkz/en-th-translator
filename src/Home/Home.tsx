@@ -2,7 +2,7 @@ import React from "react";
 import "./Home.scss";
 import { RouteComponentProps } from "react-router";
 import logo from "./translate.svg";
-// const logo = require("../logo.svg") as string;
+import { withRouter } from "react-router-dom";
 
 const Home = (props: RouteComponentProps) => {
   return (
@@ -29,4 +29,4 @@ const Home = (props: RouteComponentProps) => {
   );
 };
 
-export default Home;
+export default withRouter(Home);

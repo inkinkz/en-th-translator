@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 import Home from "./Home/Home";
 import Edit from "./Editor/Edit";
 import Manage from "./Manage/Manage";
@@ -8,13 +8,13 @@ import Manage from "./Manage/Manage";
 const App = () => {
   return (
     <React.Fragment>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Home}></Route>
-          <Route exact path="/edit" component={Edit} />
-          <Route exact path="/manage" component={Manage} />
-        </Switch>
-      </Router>
+      <HashRouter>
+        <React.Fragment>
+          <Route path="/edit" component={Edit} />
+          <Route path="/manage" component={Manage} />
+          <Route path="/" component={Home} />
+        </React.Fragment>
+      </HashRouter>
     </React.Fragment>
   );
 };

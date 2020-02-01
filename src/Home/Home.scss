@@ -1,3 +1,5 @@
+@import "../App.scss";
+
 .color-primary {
   color: darkcyan;
   background-color: whitesmoke;
@@ -28,7 +30,7 @@
 }
 
 .App-link {
-  color: #09d3ac;
+  color: $color-primary;
   margin-bottom: 1rem;
 }
 

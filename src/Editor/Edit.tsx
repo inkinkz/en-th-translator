@@ -6,6 +6,7 @@ import {
   Toolbar
 } from "@syncfusion/ej2-react-documenteditor";
 import { TitleBar } from "./title-bar.js";
+import { withRouter } from "react-router-dom";
 
 DocumentEditorContainerComponent.Inject(Toolbar);
 
@@ -82,7 +83,7 @@ class Editor extends SampleBase {
           <div
             id="documenteditor_titlebar"
             className="e-de-ctn-title"
-            style={{ background: "#09b392", fontSize: "1rem" }}
+            style={{ background: "#db9e23", fontSize: "1rem" }}
           ></div>
           <div id="documenteditor_container_body">
             <DocumentEditorContainerComponent
@@ -110,4 +111,4 @@ class Editor extends SampleBase {
     );
   }
 }
-export default Editor;
+export default withRouter(Editor as any);

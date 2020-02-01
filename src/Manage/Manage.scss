@@ -1,1 +1,127 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway&display=swap");
+@import "../App.scss";
 
+.auto-sizer {
+  height: 100%;
+  width: 100%;
+}
+
+#manage-translations {
+  background: #fff;
+  font-family: $main-font;
+  line-height: 1.6;
+}
+
+#manage-header {
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  .manage-title {
+    padding: 1rem;
+    flex: 1;
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $color-black;
+      cursor: default;
+    }
+  }
+  .manage-navigations {
+    padding: 1rem;
+    align-items: center;
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      height: 40px;
+      line-height: 40px;
+      // padding-right: 1rem;
+      li {
+        padding-right: 2rem;
+        font-size: 1.25rem;
+        .redirect-button {
+          color: $color_black;
+          text-decoration: none;
+          cursor: pointer;
+          &:hover {
+            color: $color-primary;
+          }
+        }
+      }
+    }
+  }
+}
+
+#manage-translations-body {
+  height: 100vh;
+  .translation-container {
+    margin: auto;
+    width: 98%;
+    height: 89%;
+    border: 1px solid $color-primary;
+    border-radius: 8px;
+    overflow: hidden;
+
+    .translation-headers-container {
+      display: flex;
+      box-shadow: 0 1px 4px 1px #f4f4f4;
+      z-index: 2;
+      position: static;
+      .translation-header {
+        flex: 1;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        h4 {
+          color: $color-black;
+          font-weight: bold;
+          margin: 0;
+          padding-left: 1.5rem;
+        }
+      }
+    }
+
+    .translation-items-container {
+      height: 100%;
+      overflow: hidden;
+
+      .translation-item {
+        height: 60px;
+        display: flex;
+
+        &:hover {
+          background-color: #f4f4f4;
+        }
+
+        .translation {
+          flex: 1;
+          display: flex;
+          align-items: center;
+
+          .translation-input {
+            padding-left: 1rem;
+            width: 100%;
+
+            input {
+              padding-left: 8px;
+              height: 40px;
+              border: 1px solid #ccc;
+              border-radius: 8px;
+              width: 90%;
+              outline: none;
+              color: $color-black;
+
+              &:focus {
+                border: 2px solid $color-primary;
+              }
+
+              &::placeholder {
+                color: $color-black;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

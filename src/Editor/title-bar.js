@@ -169,10 +169,10 @@ export const TitleBar = /** @class */ (function() {
       _this.documentEditor.print();
     };
     this.onHome = function() {
-      window.location.href = "/";
+      window.location.href = "#/";
     };
     this.onManage = function() {
-      window.location.href = "/manage";
+      window.location.href = "#/manage";
     };
     this.onExportClick = function(args) {
       const value = args.item.id;

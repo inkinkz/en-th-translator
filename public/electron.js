@@ -8,7 +8,11 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 1280, height: 800 });
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 960,
+    icon: path.join(__dirname, "../build/translate.png")
+  });
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
