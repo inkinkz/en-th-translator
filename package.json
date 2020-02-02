@@ -5,14 +5,19 @@
   "author": {
     "name": "Inkz",
     "email": "nithiphorn.n@gmail.com",
-    "url": "www.instagram.com/inkinkz"
+    "url": "http://www.instagram.com/inkinkz"
   },
+  "description": "English to Thai Patent Translator",
   "build": {
     "appId": "com.inkz.app",
     "productName": "Patent Translator",
     "copyright": "Copyright © 2019 ${author}",
     "mac": {
-      "category": "utilities"
+      "category": "utilities",
+      "icon": "./public/icon.png"
+    },
+    "win": {
+      "icon": "./public/icon.png"
     },
     "files": [
       "build/**/*",

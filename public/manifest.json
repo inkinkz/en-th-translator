@@ -3,17 +3,17 @@
   "name": "EN-TH Patent Translator",
   "icons": [
     {
-      "src": "translate.ico",
+      "src": "icon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "translate.png",
+      "src": "icon.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "translate.png",
+      "src": "icon.png",
       "type": "image/png",
       "sizes": "512x512"
     }

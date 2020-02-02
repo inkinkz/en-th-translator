@@ -11,7 +11,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 960,
-    icon: path.join(__dirname, "../build/translate.png")
+    icon: path.join(__dirname, "../build/icon.png")
   });
   mainWindow.loadURL(
     isDev
