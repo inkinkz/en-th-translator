@@ -1,35 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Manage.scss";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList as List } from "react-window";
 import { withRouter } from "react-router-dom";
+import { Tooltip } from "@syncfusion/ej2-popups";
+import TranslationItem from "./TranslationItem";
 
 // Render each translation
-const Row = ({ data, index, style }: any) => (
-  // <div
-  //   style={style}
-  //   className="glossary-row"
-  //   onClick={() => console.log("Clicked")}
-  // >
-  <div style={style} className="translation-item">
-    <div className="translation">
-      <div className="translation-input">
-        <input
-          type="text"
-          placeholder={"This is English translations. " + (index + 1)}
-        />
-      </div>
+const Row = ({ data, index, style }: any) => {
+  return (
+    <div style={style}>
+      <TranslationItem index={index}></TranslationItem>
     </div>
-    <div className="translation">
-      <div className="translation-input">
-        <input type="text" placeholder={"นี่คือคำแปลภาษาไทย " + (index + 1)} />
-      </div>
-    </div>
-  </div>
-  // </div>
-);
+  );
+};
 
 const Manage = (props: any) => {
+  const addToolTip: Tooltip = new Tooltip({
+    content: "Add new translation.",
+    position: "LeftCenter"
+  });
+
+  useEffect(() => {
+    addToolTip.appendTo("#add");
+  }, [addToolTip]);
+
   return (
     <div id="manage-translations">
       <header id="manage-header">
@@ -69,6 +64,7 @@ const Manage = (props: any) => {
             </div>
             <div className="translation-header">
               <h4>Thai</h4>
+              <div id="add" className="e-icons e-add"></div>
             </div>
           </div>
           <div className="translation-items-container">

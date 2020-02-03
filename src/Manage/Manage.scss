@@ -1,9 +1,19 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway&display=swap");
+@import "../../node_modules/@syncfusion/ej2-popups/styles/bootstrap4.css";
+@import "../../node_modules/@syncfusion/ej2-base/styles/bootstrap4.css";
 @import "../App.scss";
 
 .auto-sizer {
   height: 100%;
   width: 100%;
+}
+
+.e-add:before {
+  content: "\e755";
+}
+
+.e-delete:before {
+  content: "\e773";
 }
 
 #manage-translations {
@@ -54,10 +64,11 @@
 
 #manage-translations-body {
   height: 100vh;
+
   .translation-container {
     margin: auto;
     width: 98%;
-    height: 89%;
+    height: 86vh;
     border: 1px solid $color-primary;
     border-radius: 8px;
     overflow: hidden;
@@ -72,11 +83,21 @@
         height: 50px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         h4 {
           color: $color-black;
           font-weight: bold;
           margin: 0;
           padding-left: 1.5rem;
+        }
+        .e-icons {
+          font-size: 1.5rem;
+          margin-right: 2rem;
+          color: $color-primary;
+          cursor: pointer;
+          &:hover {
+            color: $color-dark;
+          }
         }
       }
     }
@@ -119,6 +140,12 @@
                 color: $color-black;
               }
             }
+          }
+          .e-icons {
+            font-size: 1.2rem;
+            margin-right: 2.1rem;
+            color: $color-danger;
+            cursor: pointer;
           }
         }
       }

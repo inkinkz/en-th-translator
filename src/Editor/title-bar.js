@@ -11,37 +11,18 @@ export const TitleBar = /** @class */ (function() {
   function TitleBar(element, docEditor, isShareNeeded, isRtl) {
     const _this = this;
     this.initializeTitleBar = function(isShareNeeded) {
-      let downloadText;
-      let downloadToolTip;
-      let printText;
-      let printToolTip;
-      let homeText;
-      let homeToolTip;
-      let manageText;
-      let manageToolTip;
-      let openText;
-      let documentTileText;
-      if (!_this.isRtl) {
-        downloadText = "Save";
-        downloadToolTip = "Save this document.";
-        printText = "Print";
-        printToolTip = "Print this document (Ctrl+P).";
-        homeText = "Home";
-        homeToolTip = "Back to Home Page";
-        manageText = "Manage Translations";
-        manageToolTip = "To Manage Translation Page";
-        openText = "Open";
-        documentTileText =
-          "Document Name. Click or tap to rename this document.";
-      } else {
-        // downloadText = "Download";
-        // downloadToolTip = "Download this document.";
-        // printText = "Print";
-        // printToolTip = "Print this document (Ctrl+P).";
-        // openText = "Open";
-        // documentTileText =
-        //   "Document Name. Click or tap to rename this document.";
-      }
+      const downloadText = "Save";
+      const downloadToolTip = "Save this document.";
+      const printText = "Print";
+      const printToolTip = "Print this document (Ctrl+P).";
+      const homeText = "Home";
+      const homeToolTip = "Back to Home Page";
+      const manageText = "Manage Translations";
+      const manageToolTip = "To Manage Translation Page";
+      const openText = "Open";
+      const documentTileText =
+        "Document Name. Click or tap to rename this document.";
+
       // tslint:disable-next-line:max-line-length
       _this.documentTitle = ej2_base_1.createElement("label", {
         id: "documenteditor_title_name",
@@ -88,7 +69,6 @@ export const TitleBar = /** @class */ (function() {
       );
       _this.print = _this.addButton(
         "e-icons e-print",
-        // "e-de-icon-Print " + iconCss,
         printText,
         btnStyles,
         "de-print",
