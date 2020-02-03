@@ -3,14 +3,15 @@ import "./Edit.scss";
 import { SampleBase } from "./sample-base";
 import {
   DocumentEditorContainerComponent,
-  Toolbar
+  Toolbar,
+  ContainerContentChangeEventArgs
 } from "@syncfusion/ej2-react-documenteditor";
 import { TitleBar } from "./title-bar.js";
 import { withRouter } from "react-router-dom";
 
 DocumentEditorContainerComponent.Inject(Toolbar);
 
-class Editor extends SampleBase {
+class Edit extends SampleBase {
   private hostUrl =
     "https://ej2services.syncfusion.com/production/web-services/";
   public container!: DocumentEditorContainerComponent;
@@ -19,7 +20,7 @@ class Editor extends SampleBase {
 
   constructor() {
     // eslint-disable-next-line prefer-rest-params
-    super(arguments);
+    super(arguments[0], arguments[1]);
 
     this.onLoadDefault = () => {
       this.container.documentEditor.documentName = "Patent Translator";
@@ -29,6 +30,7 @@ class Editor extends SampleBase {
         this.container.documentEditor.focusIn();
       };
     };
+    this.contentChange = this.contentChange.bind(this);
   }
 
   rendereComplete() {
@@ -43,7 +45,10 @@ class Editor extends SampleBase {
     );
     this.onLoadDefault();
   }
-
+  contentChange(event: ContainerContentChangeEventArgs | undefined) {
+    console.log(event);
+    // alert(event);
+  }
   //   onImportClick() {
   //     document.getElementById('file_upload').click();
   // }
@@ -94,6 +99,7 @@ class Editor extends SampleBase {
               style={{ display: "block", height: "calc(100vh - 40px)" }}
               enableToolbar={true}
               enableLocalPaste={false}
+              contentChange={e => this.contentChange(e)}
               locale="en-US"
             />
           </div>
@@ -111,4 +117,4 @@ class Editor extends SampleBase {
     );
   }
 }
-export default withRouter(Editor as any);
+export default withRouter(Edit as any);

@@ -22,8 +22,8 @@ export const TitleBar = /** @class */ (function() {
       let openText;
       let documentTileText;
       if (!_this.isRtl) {
-        downloadText = "Download";
-        downloadToolTip = "Download this document.";
+        downloadText = "Save";
+        downloadToolTip = "Save this document.";
         printText = "Print";
         printToolTip = "Print this document (Ctrl+P).";
         homeText = "Home";
@@ -34,13 +34,13 @@ export const TitleBar = /** @class */ (function() {
         documentTileText =
           "Document Name. Click or tap to rename this document.";
       } else {
-        downloadText = "Download";
-        downloadToolTip = "Download this document.";
-        printText = "Print";
-        printToolTip = "Print this document (Ctrl+P).";
-        openText = "Open";
-        documentTileText =
-          "Document Name. Click or tap to rename this document.";
+        // downloadText = "Download";
+        // downloadToolTip = "Download this document.";
+        // printText = "Print";
+        // printToolTip = "Print this document (Ctrl+P).";
+        // openText = "Open";
+        // documentTileText =
+        //   "Document Name. Click or tap to rename this document.";
       }
       // tslint:disable-next-line:max-line-length
       _this.documentTitle = ej2_base_1.createElement("label", {
@@ -71,7 +71,7 @@ export const TitleBar = /** @class */ (function() {
         "border-radius: 2px;color:inherit;font-size:14px;text-transform:capitalize;height:28px;font-weight:400;margin-top: 2px;";
 
       _this.manage = _this.addButton(
-        iconCss,
+        "e-icons e-manage",
         manageText,
         btnStyles,
         "de-print",
@@ -79,15 +79,16 @@ export const TitleBar = /** @class */ (function() {
         false
       );
       _this.home = _this.addButton(
-        iconCss,
+        "e-icons e-home",
         homeText,
         btnStyles,
-        "de-print",
+        "de-home",
         homeToolTip,
         false
       );
       _this.print = _this.addButton(
-        "e-de-icon-Print " + iconCss,
+        "e-icons e-print",
+        // "e-de-icon-Print " + iconCss,
         printText,
         btnStyles,
         "de-print",
@@ -108,7 +109,8 @@ export const TitleBar = /** @class */ (function() {
       ];
       // tslint:disable-next-line:max-line-length
       _this.export = _this.addButton(
-        "e-de-icon-Download " + iconCss,
+        "e-icons e-download",
+        // "e-de-icon-Download " + iconCss,
         downloadText,
         btnStyles,
         "documenteditor-share",
@@ -210,7 +212,7 @@ export const TitleBar = /** @class */ (function() {
       .querySelectorAll("li")[0]
       .setAttribute(
         "title",
-        "Download a copy of this document to your computer as a DOCX file."
+        "Save a copy of this document to your computer as a DOCX file."
       );
     // tslint:disable-next-line:max-line-length
     document
@@ -218,7 +220,7 @@ export const TitleBar = /** @class */ (function() {
       .querySelectorAll("li")[1]
       .setAttribute(
         "title",
-        "Download a copy of this document to your computer as an SFDT file."
+        "Save a copy of this document to your computer as an SFDT file."
       );
   };
   // tslint:disable-next-line:max-line-length

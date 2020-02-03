@@ -78,7 +78,7 @@ const Manage = (props: any) => {
                   <List
                     style={{ overflowX: "hidden" }}
                     height={height - 50}
-                    itemCount={50}
+                    itemCount={100}
                     itemSize={60}
                     width={width}
                     // itemData={[
