@@ -2,6 +2,7 @@
 @import "../../node_modules/@syncfusion/ej2-popups/styles/bootstrap4.css";
 @import "../../node_modules/@syncfusion/ej2-base/styles/bootstrap4.css";
 @import "../App.scss";
+@import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 .auto-sizer {
   height: 100%;
@@ -17,7 +18,7 @@
 }
 
 #manage-translations {
-  background: #fff;
+  background: $color-white;
   font-family: $main-font;
   line-height: 1.6;
 }
@@ -150,5 +151,17 @@
         }
       }
     }
+  }
+}
+
+.modal-button {
+  border: transparent;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  padding: 2rem;
+  &-ok {
+    color: $color-white;
+    background: $color-primary;
   }
 }

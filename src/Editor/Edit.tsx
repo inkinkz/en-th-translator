@@ -3,8 +3,7 @@ import "./Edit.scss";
 import { SampleBase } from "./sample-base";
 import {
   DocumentEditorContainerComponent,
-  Toolbar,
-  ContainerContentChangeEventArgs
+  Toolbar
 } from "@syncfusion/ej2-react-documenteditor";
 import { TitleBar } from "./title-bar.js";
 import { withRouter } from "react-router-dom";
@@ -30,7 +29,6 @@ class Edit extends SampleBase {
         this.container.documentEditor.focusIn();
       };
     };
-    this.contentChange = this.contentChange.bind(this);
   }
 
   rendereComplete() {
@@ -45,45 +43,36 @@ class Edit extends SampleBase {
     );
     this.onLoadDefault();
   }
-  contentChange(event: ContainerContentChangeEventArgs | undefined) {
-    console.log(event);
-    // alert(event);
+
+  onContentChange() {
+    // this.container.documentEditor.search.find("Adventure");
+    // this.container.documentEditor.search.findAll("committee");
+    // this.container.documentEditor.search.findAll("adventure");
+
+    // this.container.documentEditor.selection.characterFormat.highlightColor =
+    //   "Pink";
+    console.log("Content change triggered");
   }
-  //   onImportClick() {
-  //     document.getElementById('file_upload').click();
-  // }
 
-  // loadFile(file) {
-  //   let ajax = new XMLHttpRequest();
-  //   ajax.open('POST', 'https://localhost:3000/api/documenteditor/Import', true);
-  //   ajax.onreadystatechange = () => {
-  //       if (ajax.readyState === 4) {
-  //           if (ajax.status === 200 || ajax.status === 304) {
-  //               // open SFDT text in document editor
-  //               this.documenteditor.open(ajax.responseText);
-  //           }
-  //       }
-  //   };
-  //   let formData = new FormData();
-  //   formData.append('files', file);
-  //   ajax.send(formData);
-  // }
-
-  // onFileChange(e) {
-  //     if (e.target.files[0]) {
-  //         let file = e.target.files[0];
-  //         if (file.name.substr(file.name.lastIndexOf('.')) !== '.sfdt') {
-  //             this.loadFile(file);
-  //         }
-  //     }
-  // }
+  onDocumentChange() {
+    console.log("Document change triggered");
+    // this.container.documentEditor.search.find("Adventure");
+    // this.container.documentEditor.selection.characterFormat.highlightColor =
+    //   "Pink";
+  }
 
   render() {
     return (
-      // <div>
-      //  <input type="file" id="file_upload" accept=".dotx,.docx,.docm,.dot,.doc,.rtf,.txt,.xml,.sfdt" onChange={this.onFileChange.bind(this)}/>
-      //   <button onClick={this.onImportClick.bind(this)}>Import</button>
       <div className="control-pane">
+        {/* <button
+          onClick={() => {
+            this.container.documentEditor.search.find("insert");
+            this.container.documentEditor.selection.characterFormat.highlightColor =
+              "Pink";
+          }}
+        >
+          Find All
+        </button> */}
         <div className="control-section">
           <div
             id="documenteditor_titlebar"
@@ -99,8 +88,8 @@ class Edit extends SampleBase {
               style={{ display: "block", height: "calc(100vh - 40px)" }}
               enableToolbar={true}
               enableLocalPaste={false}
-              contentChange={e => this.contentChange(e)}
-              locale="en-US"
+              documentChange={this.onDocumentChange.bind(this)}
+              contentChange={this.onContentChange.bind(this)}
             />
           </div>
         </div>
@@ -111,8 +100,6 @@ class Edit extends SampleBase {
             })
           }
         </script> */}
-
-        {/* </div> */}
       </div>
     );
   }
