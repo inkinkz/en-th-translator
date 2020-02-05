@@ -3,6 +3,9 @@
 # build files
 /dist
 
+# Firebase
+.firebase
+
 # dependencies
 /node_modules
 /.pnp

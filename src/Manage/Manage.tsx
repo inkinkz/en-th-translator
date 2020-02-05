@@ -11,14 +11,14 @@ import Form from "react-bootstrap/Form";
 
 // or Render each translation here
 
-interface IAddData {
+interface AddData {
   english: string;
   thai: string;
 }
 
 const Manage = (props: any) => {
   const [uniqueKeys, setUniqueKeys] = useState<string[]>([]);
-  const [addData, setAddData] = useState<IAddData>({ english: "", thai: "" });
+  const [addData, setAddData] = useState<AddData>({ english: "", thai: "" });
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);

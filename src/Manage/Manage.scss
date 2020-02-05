@@ -183,6 +183,7 @@
   }
 }
 
-.form-control {
-  border-color: red;
+.form-control:focus {
+  border-color: $color-primary;
+  box-shadow: 0 0 0 0.2rem rgba(223, 168, 56, 0.25);
 }
