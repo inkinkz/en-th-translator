@@ -6,13 +6,19 @@ import { withRouter } from "react-router-dom";
 import { Tooltip } from "@syncfusion/ej2-popups";
 import TranslationItem from "./TranslationItem";
 import { database } from "../firebase";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 // or Render each translation here
 
+interface IAddData {
+  english: string;
+  thai: string;
+}
+
 const Manage = (props: any) => {
   const [uniqueKeys, setUniqueKeys] = useState<string[]>([]);
+  const [addData, setAddData] = useState<IAddData>({ english: "", thai: "" });
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -38,8 +44,9 @@ const Manage = (props: any) => {
 
   useEffect(() => {
     const ref = database.ref("translations");
-    ref // Keys sort alphabetically
-      .once(
+    ref
+      .orderByChild("english") // Keys sort alphabetically
+      .on(
         "value",
         snapshot => {
           const temp: string[] = [];
@@ -54,18 +61,66 @@ const Manage = (props: any) => {
       );
   }, []);
 
+  const handleAddInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setAddData({ ...addData, [e.target.name]: e.target.value });
+  };
+
+  const addNewTranslation = async (): Promise<void> => {
+    const ref = database.ref("translations");
+
+    await ref.push({
+      english: addData.english,
+      thai: addData.thai
+    });
+    alert("Translation added successfully.");
+    handleClose();
+    setAddData({ english: "", thai: "" });
+  };
+
   return (
     <div id="manage-translations">
       <Modal show={show} onHide={handleClose} centered={true}>
         <Modal.Header closeButton>
-          <Modal.Title>Add new translation</Modal.Title>
+          <Modal.Title>Add New Translation</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="addEnglish">
+              <Form.Label>English</Form.Label>
+              <Form.Control
+                name="english"
+                type="text"
+                placeholder="English translation here"
+                value={addData.english}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleAddInput(e);
+                }}
+              />
+            </Form.Group>
+            <Form.Group controlId="addThai">
+              <Form.Label>Thai</Form.Label>
+              <Form.Control
+                name="thai"
+                type="text"
+                placeholder="คำแปลภาษาไทย"
+                value={addData.thai}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  handleAddInput(e);
+                }}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleClose} size="sm">
+          <button className="modal-button-cancel" onClick={() => handleClose()}>
             CANCEL
-          </Button>
-          <button className="modal-button-ok">ADD</button>
+          </button>
+          <button
+            className="modal-button-ok"
+            onClick={() => addNewTranslation()}
+          >
+            ADD
+          </button>
         </Modal.Footer>
       </Modal>
       <header id="manage-header">

@@ -154,14 +154,35 @@
   }
 }
 
-.modal-button {
-  border: transparent;
+.modal-button-ok {
+  outline: none;
+  width: 80px;
+  height: 36px;
+  border: 0px transparent;
   border-radius: 8px;
-  font-size: 0.75rem;
-  line-height: 0.75rem;
-  padding: 2rem;
-  &-ok {
-    color: $color-white;
-    background: $color-primary;
+  font-size: 1rem;
+  color: $color-white;
+  background: $color-primary;
+  &:hover {
+    background: $color-dark;
   }
+}
+
+.modal-button-cancel {
+  outline: none;
+  width: 80px;
+  height: 36px;
+  border: 0px transparent;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: $color-white;
+  background: $color-danger;
+  outline: none;
+  &:hover {
+    background: $color-danger-dark;
+  }
+}
+
+.form-control {
+  border-color: red;
 }
