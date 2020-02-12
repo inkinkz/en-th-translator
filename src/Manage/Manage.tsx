@@ -8,30 +8,31 @@ import TranslationItem from "./TranslationItem";
 import { database } from "../firebase";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { AddData } from "../App";
+import { useSelector } from "react-redux";
+import { PatentTranslator } from "../redux/types";
 
 // or Render each translation here
 
-interface AddData {
-  english: string;
-  thai: string;
-}
+// Render each translation
+const Row = ({ index, style }: any) => {
+  const uniqueKeys = useSelector((state: PatentTranslator) => state.uniqueKeys);
+  return (
+    <div style={style}>
+      <TranslationItem unique_key={uniqueKeys[index]}></TranslationItem>
+    </div>
+  );
+};
 
 const Manage = (props: any) => {
-  const [uniqueKeys, setUniqueKeys] = useState<string[]>([]);
   const [addData, setAddData] = useState<AddData>({ english: "", thai: "" });
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // Render each translation
-  const Row = ({ index, style }: any) => {
-    return (
-      <div style={style}>
-        <TranslationItem unique_key={uniqueKeys[index]}></TranslationItem>
-      </div>
-    );
-  };
+  // const dispatch = useDispatch();
+  const uniqueKeys = useSelector((state: PatentTranslator) => state.uniqueKeys);
 
   const addToolTip: Tooltip = new Tooltip({
     content: "Add new translation.",
@@ -42,32 +43,12 @@ const Manage = (props: any) => {
     addToolTip.appendTo("#add");
   }, [addToolTip]);
 
-  useEffect(() => {
-    const ref = database.ref("translations");
-    ref
-      .orderByChild("english") // Keys sort alphabetically
-      .on(
-        "value",
-        snapshot => {
-          const temp: string[] = [];
-          snapshot.forEach(childSnapshot => {
-            temp.push(childSnapshot.key!);
-          });
-          setUniqueKeys(temp);
-        },
-        (err: Error) => {
-          console.log(err);
-        }
-      );
-  }, []);
-
   const handleAddInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setAddData({ ...addData, [e.target.name]: e.target.value });
   };
 
   const addNewTranslation = async (): Promise<void> => {
     const ref = database.ref("translations");
-
     await ref.push({
       english: addData.english,
       thai: addData.thai

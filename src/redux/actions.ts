@@ -1,0 +1,3 @@
+export const SET_ENGLISH_TEXTS = "SET_ENGLISH_TEXTS";
+export const SET_UNIQUE_KEYS = "SET_UNIQUE_KEYS";
+export const SET_FOUND_TEXTS = "SET_FOUND_TEXTS";

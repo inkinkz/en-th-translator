@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./Edit.scss";
 import { SampleBase } from "./sample-base";
 import {
@@ -7,6 +7,10 @@ import {
 } from "@syncfusion/ej2-react-documenteditor";
 import { TitleBar } from "./title-bar.js";
 import { withRouter } from "react-router-dom";
+import TranslationSideBar from "./TranslationSideBar";
+import { useDispatch, useSelector } from "react-redux";
+import { PatentTranslator } from "../redux/types";
+import { SET_FOUND_TEXTS } from "../redux/actions";
 
 DocumentEditorContainerComponent.Inject(Toolbar);
 
@@ -16,6 +20,14 @@ class Edit extends SampleBase {
   public container!: DocumentEditorContainerComponent;
   public titleBar: any;
   onLoadDefault: () => void;
+
+  dispatch = useDispatch();
+  englishTexts = useSelector((state: PatentTranslator) => state.englishTexts);
+  // uniqueKeys = useSelector((state: PatentTranslator) => state.uniqueKeys);
+  // setFoundTexts = useCallback(
+  //   (keys: string[]) => this.dispatch({ type: SET_FOUND_TEXTS, payload: keys }),
+  //   [this.dispatch]
+  // );
 
   constructor() {
     // eslint-disable-next-line prefer-rest-params
@@ -44,14 +56,31 @@ class Edit extends SampleBase {
     this.onLoadDefault();
   }
 
+  // triggerSearch() {
+  //   let keyList: string[] = [];
+  //   this.englishTexts.forEach((text: string, index: number) => {
+  //     this.container.documentEditor.search.findAll(text);
+  //     if (this.container.documentEditor.searchModule.searchResults.length > 0) {
+  //       keyList.push(this.uniqueKeys[index]);
+  //     }
+  //   });
+
+  //   // Found Texts
+  //   this.setFoundTexts(keyList);
+  // }
+
   onContentChange() {
     // this.container.documentEditor.search.find("Adventure");
     // this.container.documentEditor.search.findAll("committee");
-    // this.container.documentEditor.search.findAll("adventure");
-
     // this.container.documentEditor.selection.characterFormat.highlightColor =
     //   "Pink";
     console.log("Content change triggered");
+
+    // let timer: ReturnType<typeof setTimeout> = setTimeout(() => {
+    //   this.triggerSearch();
+    // }, 500);
+
+    // clearTimeout(timer);
   }
 
   onDocumentChange() {
@@ -61,31 +90,36 @@ class Edit extends SampleBase {
     //   "Pink";
   }
 
+  searchFor = (text: string): void => {
+    this.container.documentEditor.search.findAll(text);
+  };
+
+  replaceWithThai = (thai: string): void => {
+    this.container.documentEditor.searchModule.searchResults.replace(thai);
+    // this.container.documentEditor.searchModule.searchResults.clear();
+  };
+
   render() {
     return (
       <div className="control-pane">
-        {/* <button
-          onClick={() => {
-            this.container.documentEditor.search.find("insert");
-            this.container.documentEditor.selection.characterFormat.highlightColor =
-              "Pink";
-          }}
-        >
-          Find All
-        </button> */}
         <div className="control-section">
           <div
             id="documenteditor_titlebar"
             className="e-de-ctn-title"
             style={{ background: "#db9e23", fontSize: "1rem" }}
           ></div>
-          <div id="documenteditor_container_body">
+          <div id="documenteditor-container-body">
+            <TranslationSideBar
+              container={this.container}
+              replaceWithThai={this.replaceWithThai}
+              searchFor={this.searchFor}
+            />
             <DocumentEditorContainerComponent
-              id="container"
+              // id="container"
+              className="main-editor"
               ref={scope => {
                 this.container = scope!;
               }}
-              style={{ display: "block", height: "calc(100vh - 40px)" }}
               enableToolbar={true}
               enableLocalPaste={false}
               documentChange={this.onDocumentChange.bind(this)}
@@ -104,4 +138,6 @@ class Edit extends SampleBase {
     );
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default withRouter(Edit as any);
