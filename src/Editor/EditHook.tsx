@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useCallback, useRef, useState } from "react";
 import "./Edit.scss";
 import {
   DocumentEditorContainerComponent,
@@ -17,8 +17,7 @@ DocumentEditorContainerComponent.Inject(Toolbar);
 const EditHook = () => {
   const hostUrl = "https://ej2services.syncfusion.com/production/web-services/";
   let container!: DocumentEditorContainerComponent;
-  let titleBar: any;
-  let titleBarRef: any = useRef();
+  let titleBar: any = useRef(null);
 
   const dispatch = useDispatch();
   const englishTexts = useSelector(
@@ -30,36 +29,50 @@ const EditHook = () => {
     [dispatch]
   );
 
-  // Delay before search
-  const [debouncedCallback] = useDebouncedCallback(() => {
-    triggerSearch();
-  }, 500);
+  const [finished, setFinished] = useState(false);
+
+  const onDocumentLoad = () => {
+    container.documentEditor.documentChange = () => {
+      titleBar.current.updateDocumentTitle();
+      // container.documentEditor.focusIn();
+      console.log("onDocumentLoad");
+      triggerSearch(true);
+    };
+  };
 
   useEffect(() => {
-    const setUp = () => {
+    const rendereComplete = () => {
       container.serviceUrl = hostUrl + "api/documenteditor/";
       container.documentEditor.pageOutline = "#E0E0E0";
       container.documentEditor.acceptTab = true;
       container.documentEditor.resize();
-      titleBar = new TitleBar(
-        titleBarRef.current,
+      // console.log("newTitleBar");
+      titleBar.current = new TitleBar(
+        titleBar.current,
         container.documentEditor,
         true
       );
+      // console.log("rerdereComplete()");
+    };
+
+    const onLoadDefault = () => {
+      container.documentEditor.documentName = "Patent Translator";
+      titleBar.current.updateDocumentTitle();
+      // console.log("onLoadDefault()");
     };
 
     setTimeout(() => {
-      (async function onLoadDefault() {
-        await setUp();
-        container.documentEditor.documentName = "Patent Translator";
-        titleBar.updateDocumentTitle();
-        container.documentEditor.documentChange = () => {
-          titleBar.updateDocumentTitle();
-          container.documentEditor.focusIn();
-        };
-      })();
+      // console.log("setTimeout()");
+      if (!finished) {
+        rendereComplete();
+        onLoadDefault();
+        onDocumentLoad();
+        setFinished(true);
+      }
     });
-  }, []);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [container]);
 
   const searchFor = (text: string): void => {
     container.documentEditor.search.findAll(text);
@@ -67,26 +80,33 @@ const EditHook = () => {
 
   const replaceWithThai = (thai: string): void => {
     container.documentEditor.searchModule.searchResults.replace(thai);
-    // this.container.documentEditor.searchModule.searchResults.clear();
+    // container.documentEditor.searchModule.searchResults.clear();
   };
 
-  const triggerSearch = (): void => {
+  const triggerSearch = (move: boolean): void => {
+    console.log("triggerSearch()");
     let keyList: string[] = [];
-    englishTexts.forEach((text: string, index: number) => {
-      container.documentEditor.search.findAll(text);
-      if (container.documentEditor.searchModule.searchResults.length > 0) {
-        console.log(container.documentEditor.searchModule.searchResults.length);
-        container.documentEditor.searchModule.searchResults.clear();
-        keyList.push(uniqueKeys[index]);
-      }
-    });
-    setFoundTexts(keyList);
+    if (container !== null) {
+      englishTexts.forEach((text: string, index: number) => {
+        container.documentEditor.search.findAll(text);
+        if (container.documentEditor.searchModule.searchResults.length > 0) {
+          container.documentEditor.searchModule.searchResults.clear();
+          keyList.push(uniqueKeys[index]);
+        }
+      });
+      // console.log(keyList);
+      if (move) container.documentEditor.selection.moveToDocumentStart();
+
+      setFoundTexts(keyList);
+    }
   };
+
+  // Delay before search
+  const [debouncedCallback] = useDebouncedCallback(() => {
+    triggerSearch(false);
+  }, 1000);
 
   const onContentChange = () => {
-    // this.container.documentEditor.selection.characterFormat.highlightColor =
-    //   "Pink";
-    console.log("Content change triggered");
     debouncedCallback();
   };
 
@@ -98,7 +118,7 @@ const EditHook = () => {
     <div className="control-pane">
       <div className="control-section">
         <div
-          ref={titleBarRef}
+          ref={titleBar}
           id="documenteditor_titlebar"
           className="e-de-ctn-title"
           style={{ background: "#db9e23", fontSize: "1rem" }}
@@ -108,9 +128,10 @@ const EditHook = () => {
             container={container}
             replaceWithThai={replaceWithThai}
             searchFor={searchFor}
+            triggerSearch={triggerSearch}
           />
           <DocumentEditorContainerComponent
-            // id="container"
+            id="container"
             className="main-editor"
             ref={scope => {
               container = scope!;

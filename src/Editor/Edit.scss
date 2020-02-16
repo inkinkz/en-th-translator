@@ -74,11 +74,12 @@
     flex-direction: column;
     justify-content: space-between;
     .suggestion-header {
-      height: 50px;
+      height: 54px;
       width: 300px;
       text-align: center;
       font-weight: bold;
       padding: 1rem;
+      cursor: pointer;
     }
 
     .suggestion-items-container {

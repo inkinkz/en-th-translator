@@ -5,17 +5,23 @@ import { AddData } from "../App";
 import { database } from "../firebase";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { useSelector } from "react-redux";
+import { PatentTranslator } from "../redux/types";
+import TranslationSideBarItem from "./TranslationSideBarItem";
 
 const TranslationSideBar = (props: {
   container: DocumentEditorContainerComponent;
   searchFor: (text: string) => void;
   replaceWithThai: (text: string) => void;
+  triggerSearch: (move: boolean) => void;
 }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const [addData, setAddData] = useState<AddData>({ english: "", thai: "" });
   const [show, setShow] = useState(false);
+
+  const foundTexts = useSelector((state: PatentTranslator) => state.foundTexts);
 
   const handleAddInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setAddData({ ...addData, [e.target.name]: e.target.value });
@@ -79,49 +85,26 @@ const TranslationSideBar = (props: {
           </button>
         </Modal.Footer>
       </Modal>
-      <h2 className="suggestion-header">Translations</h2>
+      <h2
+        className="suggestion-header"
+        onClick={() => props.triggerSearch(true)}
+      >
+        Translations
+      </h2>
+
       <div className="suggestion-items-container">
-        {/* Test Items */}
-        <div
-          className="suggestion-item"
-          onClick={() => {
-            props.searchFor("insert");
-          }}
-        >
-          <span style={{ fontWeight: "bold" }}>Insert</span>
-          &nbsp; =&gt; ใส่
-          <div
-            className="replace-button"
-            onClick={() => {
-              props.replaceWithThai("ใส่");
-            }}
-          >
-            Replace
-          </div>
-        </div>
-
-        <div className="suggestion-item-separator"></div>
-
-        <div className="suggestion-item">
-          <span style={{ fontWeight: "bold" }}>This is an English text</span>
-          &nbsp; =&gt; คำแปลภาษาไทย
-          <div className="replace-button">Replace</div>
-        </div>
-        <div className="suggestion-item-separator"></div>
-
-        <div className="suggestion-item">
-          <span style={{ fontWeight: "bold" }}>This is an English text</span>
-          &nbsp; =&gt; คำแปลภาษาไทย
-          <div className="replace-button">Replace</div>
-        </div>
-        <div className="suggestion-item-separator"></div>
-        <div className="suggestion-item">
-          <span style={{ fontWeight: "bold" }}>This is an English text</span>
-          &nbsp; =&gt; คำแปลภาษาไทย
-          <div className="replace-button">Replace</div>
-        </div>
-        <div className="suggestion-item-separator"></div>
+        {foundTexts.map((keys: string, index: number) => {
+          return (
+            <TranslationSideBarItem
+              key={index}
+              current={keys}
+              searchFor={props.searchFor}
+              replaceWithThai={props.replaceWithThai}
+            />
+          );
+        })}
       </div>
+
       <div className="suggestion-footer" onClick={handleShow}>
         + Add new translation
       </div>
