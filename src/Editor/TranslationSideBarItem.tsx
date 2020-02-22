@@ -21,6 +21,22 @@ const TranslationSideBar = (props: {
       });
   }, [props]);
 
+  const replaceText = () => {
+    const ref = database.ref("translations").child(props.current);
+    let count: number;
+
+    ref
+      .once("value", snapshot => {
+        const data = snapshot.val();
+        count = data.use_count + 1;
+      })
+      .then(() => {
+        ref.update({ use_count: count });
+      });
+
+    props.replaceWithThai(thai);
+  };
+
   return (
     <React.Fragment>
       <div
@@ -34,7 +50,7 @@ const TranslationSideBar = (props: {
         <div
           className="replace-button"
           onClick={() => {
-            props.replaceWithThai(thai);
+            replaceText();
           }}
         >
           Replace

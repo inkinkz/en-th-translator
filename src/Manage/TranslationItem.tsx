@@ -12,6 +12,7 @@ const TranslationItem = (props: { unique_key: string }) => {
 
   const [english, setEnglish] = useState<string>("");
   const [thai, setThai] = useState<string>("");
+  const [useCount, setUseCount] = useState<number>(0);
 
   const [show, setShow] = useState(false);
 
@@ -29,6 +30,7 @@ const TranslationItem = (props: { unique_key: string }) => {
       if (snap) {
         setThai(snap.thai);
         setEnglish(snap.english);
+        setUseCount(snap.use_count);
       }
     };
     query.on("value", onValue);
@@ -81,13 +83,6 @@ const TranslationItem = (props: { unique_key: string }) => {
     database.ref("translations/" + props.unique_key).remove();
     alert("Removed successfully!");
     handleClose();
-
-    // alert(
-    //   "Removed successfully! \n" +
-    //     "Key: " +
-    //     props.unique_key +
-    //     "\nNot Really Removed... yet"
-    // );
   };
 
   return (
@@ -100,6 +95,7 @@ const TranslationItem = (props: { unique_key: string }) => {
         <Modal.Body>
           <p>{english}</p>
           <p>{thai}</p>
+          <p>Use Count: {useCount} </p>
         </Modal.Body>
 
         <Modal.Footer>

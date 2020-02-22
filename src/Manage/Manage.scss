@@ -81,18 +81,20 @@
       position: static;
       .translation-header {
         flex: 1;
-        height: 50px;
+        height: 60px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
         h4 {
           color: $color-black;
           font-weight: bold;
           margin: 0;
           padding-left: 1.5rem;
+          margin-right: 2.5rem;
         }
         .e-icons {
-          font-size: 1.5rem;
+          position: absolute;
+          right: 1.7rem;
+          font-size: 2rem;
           margin-right: 2rem;
           color: $color-primary;
           cursor: pointer;
@@ -144,7 +146,7 @@
           }
           .e-icons {
             font-size: 1.2rem;
-            margin-right: 2.1rem;
+            margin-right: 2rem;
             color: $color-danger;
             cursor: pointer;
           }

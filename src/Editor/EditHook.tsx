@@ -11,7 +11,7 @@ import TranslationSideBar from "./TranslationSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { PatentTranslator } from "../redux/types";
 import { SET_FOUND_TEXTS } from "../redux/actions";
-import { useDebouncedCallback } from "use-debounce";
+// import { useDebouncedCallback } from "use-debounce";
 
 DocumentEditorContainerComponent.Inject(Toolbar);
 
@@ -24,7 +24,10 @@ const EditHook = () => {
   const englishTexts = useSelector(
     (state: PatentTranslator) => state.englishTexts
   );
-  const uniqueKeys = useSelector((state: PatentTranslator) => state.uniqueKeys);
+  const uniqueKeysSortByUseCount = useSelector(
+    (state: PatentTranslator) => state.uniqueKeysSortByUseCount
+  );
+
   const setFoundTexts = useCallback(
     (keys: string[]) => dispatch({ type: SET_FOUND_TEXTS, payload: keys }),
     [dispatch]
@@ -40,7 +43,7 @@ const EditHook = () => {
         container.documentEditor.search.findAll(text);
         if (container.documentEditor.searchModule.searchResults.length > 0) {
           container.documentEditor.searchModule.searchResults.clear();
-          keyList.push(uniqueKeys[index]);
+          keyList.push(uniqueKeysSortByUseCount[index]);
         }
       });
       // console.log(keyList);
@@ -103,9 +106,9 @@ const EditHook = () => {
   };
 
   // Delay before search
-  const [debouncedCallback] = useDebouncedCallback(() => {
-    triggerSearch(false);
-  }, 1000);
+  // const [debouncedCallback] = useDebouncedCallback(() => {
+  //   triggerSearch(false);
+  // }, 1000);
 
   const onContentChange = () => {
     // debouncedCallback();
