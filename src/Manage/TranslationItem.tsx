@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Manage.scss";
 import { Tooltip } from "@syncfusion/ej2-popups";
 import { database } from "../firebase";
+import Modal from "react-bootstrap/Modal";
 
 const TranslationItem = (props: { unique_key: string }) => {
   const delToolTip: Tooltip = new Tooltip({
@@ -11,6 +12,11 @@ const TranslationItem = (props: { unique_key: string }) => {
 
   const [english, setEnglish] = useState<string>("");
   const [thai, setThai] = useState<string>("");
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     delToolTip.appendTo("#delete");
@@ -72,17 +78,42 @@ const TranslationItem = (props: { unique_key: string }) => {
   };
 
   const deleteTranslation = (): void => {
-    // database.ref("translations/" + props.unique_key).remove();
-    alert(
-      "Removed successfully! \n" +
-        "Key: " +
-        props.unique_key +
-        "\nNot Really Removed... yet"
-    );
+    database.ref("translations/" + props.unique_key).remove();
+    alert("Removed successfully!");
+    handleClose();
+
+    // alert(
+    //   "Removed successfully! \n" +
+    //     "Key: " +
+    //     props.unique_key +
+    //     "\nNot Really Removed... yet"
+    // );
   };
 
   return (
     <div className="translation-item">
+      <Modal show={show} onHide={handleClose} centered={true}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete this tranlation?</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>{english}</p>
+          <p>{thai}</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <button className="modal-button-cancel" onClick={() => handleClose()}>
+            CANCEL
+          </button>
+          <button
+            className="modal-button-ok"
+            onClick={() => deleteTranslation()}
+          >
+            CONFIRM
+          </button>
+        </Modal.Footer>
+      </Modal>
       <div className="translation">
         <div className="translation-input">
           <input
@@ -131,7 +162,7 @@ const TranslationItem = (props: { unique_key: string }) => {
         <div
           id="delete"
           className="e-icons e-delete"
-          onClick={() => deleteTranslation()}
+          onClick={handleShow}
         ></div>
       </div>
     </div>

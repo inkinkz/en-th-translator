@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import "./Edit.scss";
 import { SampleBase } from "./sample-base";
@@ -104,4 +105,5 @@ class Edit extends SampleBase {
     );
   }
 }
+
 export default withRouter(Edit as any);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import "./Edit.scss";
 import {
@@ -17,7 +18,7 @@ DocumentEditorContainerComponent.Inject(Toolbar);
 const EditHook = () => {
   const hostUrl = "https://ej2services.syncfusion.com/production/web-services/";
   let container!: DocumentEditorContainerComponent;
-  let titleBar: any = useRef(null);
+  const titleBar: any = useRef(null);
 
   const dispatch = useDispatch();
   const englishTexts = useSelector(
@@ -31,13 +32,22 @@ const EditHook = () => {
 
   const [finished, setFinished] = useState(false);
 
-  const onDocumentLoad = () => {
-    container.documentEditor.documentChange = () => {
-      titleBar.current.updateDocumentTitle();
-      // container.documentEditor.focusIn();
-      console.log("onDocumentLoad");
-      triggerSearch(true);
-    };
+  const triggerSearch = (move: boolean): void => {
+    console.log("triggerSearch()");
+    const keyList: string[] = [];
+    if (container !== null) {
+      englishTexts.forEach((text: string, index: number) => {
+        container.documentEditor.search.findAll(text);
+        if (container.documentEditor.searchModule.searchResults.length > 0) {
+          container.documentEditor.searchModule.searchResults.clear();
+          keyList.push(uniqueKeys[index]);
+        }
+      });
+      // console.log(keyList);
+      if (move) container.documentEditor.selection.moveToDocumentStart();
+
+      setFoundTexts(keyList);
+    }
   };
 
   useEffect(() => {
@@ -61,6 +71,15 @@ const EditHook = () => {
       // console.log("onLoadDefault()");
     };
 
+    const onDocumentLoad = () => {
+      container.documentEditor.documentChange = () => {
+        titleBar.current.updateDocumentTitle();
+        // container.documentEditor.focusIn();
+        console.log("onDocumentLoad");
+        triggerSearch(true);
+      };
+    };
+
     setTimeout(() => {
       // console.log("setTimeout()");
       if (!finished) {
@@ -71,7 +90,7 @@ const EditHook = () => {
       }
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [container]);
 
   const searchFor = (text: string): void => {
@@ -83,31 +102,14 @@ const EditHook = () => {
     // container.documentEditor.searchModule.searchResults.clear();
   };
 
-  const triggerSearch = (move: boolean): void => {
-    console.log("triggerSearch()");
-    let keyList: string[] = [];
-    if (container !== null) {
-      englishTexts.forEach((text: string, index: number) => {
-        container.documentEditor.search.findAll(text);
-        if (container.documentEditor.searchModule.searchResults.length > 0) {
-          container.documentEditor.searchModule.searchResults.clear();
-          keyList.push(uniqueKeys[index]);
-        }
-      });
-      // console.log(keyList);
-      if (move) container.documentEditor.selection.moveToDocumentStart();
-
-      setFoundTexts(keyList);
-    }
-  };
-
   // Delay before search
   const [debouncedCallback] = useDebouncedCallback(() => {
     triggerSearch(false);
   }, 1000);
 
   const onContentChange = () => {
-    debouncedCallback();
+    // debouncedCallback();
+    console.log("content change");
   };
 
   const onDocumentChange = () => {

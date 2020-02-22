@@ -119,12 +119,13 @@
     }
 
     .suggestion-footer {
-      height: 42px;
+      height: 43px;
       text-align: right;
       font-weight: bold;
       padding: 0.5rem 1rem 0 0;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid #dfe2e6;
       cursor: pointer;
+      background: #f8f9fa;
       color: #696969;
       &:hover {
         color: $color-black;
@@ -136,4 +137,9 @@
     height: 100%;
     max-width: calc(100vw - 300px);
   }
+}
+
+.form-control:focus {
+  border-color: $color-primary;
+  box-shadow: 0 0 0 0.2rem rgba(223, 168, 56, 0.25);
 }
