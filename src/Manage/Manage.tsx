@@ -117,7 +117,7 @@ const Manage = (props: any) => {
       setKeysToShow(keyToUse);
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, [sortBy, setKeysToShow, uniqueKeys, uniqueKeysSortByUseCount, search]);
 
   useEffect(() => {
@@ -282,7 +282,7 @@ const Manage = (props: any) => {
                 type="text"
                 placeholder="Search Thai..."
                 value={searchThai}
-                style={{ width: "50%" }}
+                style={{ width: "60%" }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setSearchThai(e.target.value);
                   debouncedCallback();
@@ -301,16 +301,10 @@ const Manage = (props: any) => {
                 {({ height, width }) => (
                   <List
                     style={{ overflowX: "hidden" }}
-                    height={height - 50}
+                    height={height - 60}
                     itemCount={keysToShow.length}
                     itemSize={60}
                     width={width}
-                    // itemData={[
-                    //   displayKey,
-                    //   selectedRow,
-                    //   setEditingUniqueKey,
-                    //   permissions
-                    // ]}
                   >
                     {Row}
                   </List>
