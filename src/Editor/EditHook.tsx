@@ -11,7 +11,6 @@ import TranslationSideBar from "./TranslationSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { PatentTranslator } from "../redux/types";
 import { SET_FOUND_TEXTS } from "../redux/actions";
-// import { useDebouncedCallback } from "use-debounce";
 
 DocumentEditorContainerComponent.Inject(Toolbar);
 
@@ -19,6 +18,8 @@ const EditHook = () => {
   const hostUrl = "https://ej2services.syncfusion.com/production/web-services/";
   let container!: DocumentEditorContainerComponent;
   const titleBar: any = useRef(null);
+
+  const editorRef: any = useRef();
 
   const dispatch = useDispatch();
   const englishTexts = useSelector(
@@ -119,6 +120,18 @@ const EditHook = () => {
     console.log("Document change triggered");
   };
 
+  const selectedText = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ): void => {
+    e.preventDefault();
+    const text = container.documentEditor.selection.text.toLowerCase();
+    if (text.length > 2) {
+      const index = englishTexts.indexOf(text);
+      if (index > 0) setFoundTexts([uniqueKeysSortByUseCount[index]]);
+      else triggerSearch(false);
+    }
+  };
+
   return (
     <div className="control-pane">
       <div className="control-section">
@@ -128,7 +141,11 @@ const EditHook = () => {
           className="e-de-ctn-title"
           style={{ background: "#db9e23", fontSize: "1rem" }}
         ></div>
-        <div id="documenteditor-container-body">
+        <div
+          id="documenteditor-container-body"
+          onMouseUp={e => selectedText(e)}
+          ref={editorRef}
+        >
           <TranslationSideBar
             container={container}
             replaceWithThai={replaceWithThai}

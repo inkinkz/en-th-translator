@@ -1,8 +1,8 @@
 import React, {
   useState,
   useRef,
-  forwardRef,
-  useImperativeHandle
+  forwardRef
+  // useImperativeHandle
 } from "react";
 import "./Edit.scss";
 import { DocumentEditorContainerComponent } from "@syncfusion/ej2-react-documenteditor";
@@ -58,11 +58,11 @@ const TranslationSideBar = forwardRef(
       setAddData({ english: "", thai: "" });
     };
 
-    useImperativeHandle(ref, () => ({
-      getAlert() {
-        alert("getAlert from Child");
-      }
-    }));
+    // useImperativeHandle(ref, () => ({
+    //   getAlert() {
+    //     alert("getAlert from Child");
+    //   }
+    // }));
 
     return (
       <div className="suggestion-panel">
