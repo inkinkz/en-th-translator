@@ -128,7 +128,6 @@ const EditHook = () => {
     if (text.length > 2) {
       const index = englishTexts.indexOf(text);
       if (index > 0) setFoundTexts([uniqueKeysSortByUseCount[index]]);
-      else triggerSearch(false);
     }
   };
 
