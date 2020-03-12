@@ -19,6 +19,7 @@ const TranslationSideBar = forwardRef(
   (
     props: {
       container: DocumentEditorContainerComponent;
+      currentWord: string;
       searchFor: (text: string) => void;
       replaceWithThai: (text: string) => void;
       triggerSearch: (move: boolean) => void;
@@ -38,6 +39,7 @@ const TranslationSideBar = forwardRef(
     const handleShow = () => {
       setShow(true);
       setTimeout(() => {
+        setAddData({ english: props.currentWord, thai: "" });
         if (engRef.current) engRef.current.focus();
       }, 100);
     };

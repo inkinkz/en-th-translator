@@ -19,6 +19,7 @@ const EditHook = () => {
   let container!: DocumentEditorContainerComponent;
   const titleBar: any = useRef(null);
 
+  const [currentWord, setCurrentWord] = useState("");
   const editorRef: any = useRef();
 
   const dispatch = useDispatch();
@@ -125,8 +126,10 @@ const EditHook = () => {
   ): void => {
     e.preventDefault();
     const text = container.documentEditor.selection.text.toLowerCase();
+    setCurrentWord(container.documentEditor.selection.text);
     if (text.length > 2) {
       const index = englishTexts.indexOf(text);
+      console.log(text);
       if (index > 0) setFoundTexts([uniqueKeysSortByUseCount[index]]);
     }
   };
@@ -150,6 +153,7 @@ const EditHook = () => {
             replaceWithThai={replaceWithThai}
             searchFor={searchFor}
             triggerSearch={triggerSearch}
+            currentWord={currentWord}
           />
           <DocumentEditorContainerComponent
             id="container"
