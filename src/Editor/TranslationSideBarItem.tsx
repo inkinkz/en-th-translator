@@ -6,6 +6,7 @@ const TranslationSideBar = (props: {
   current: string;
   searchFor: (text: string) => void;
   replaceWithThai: (text: string) => void;
+  replaceAll: (text: string) => void;
 }) => {
   const [english, setEnglish] = useState("");
   const [thai, setThai] = useState("");
@@ -16,12 +17,14 @@ const TranslationSideBar = (props: {
       .child(props.current)
       .once("value", snapshot => {
         const item = snapshot.val();
-        setEnglish(item.english);
-        setThai(item.thai);
+        if (item) {
+          setEnglish(item.english);
+          setThai(item.thai);
+        }
       });
   }, [props]);
 
-  const replaceText = () => {
+  const replaceText = (type: string) => {
     const ref = database.ref("translations").child(props.current);
     let count: number;
 
@@ -34,7 +37,8 @@ const TranslationSideBar = (props: {
         ref.update({ use_count: count });
       });
 
-    props.replaceWithThai(thai);
+    if (type === "single") props.replaceWithThai(thai);
+    else if (type === "all") props.replaceAll(thai);
   };
 
   return (
@@ -45,15 +49,27 @@ const TranslationSideBar = (props: {
           props.searchFor(english);
         }}
       >
-        <span style={{ fontWeight: "bold" }}>{english}</span>
-        &nbsp; =&gt; {thai}
-        <div
-          className="replace-button"
-          onClick={() => {
-            replaceText();
-          }}
-        >
-          Replace
+        <div className="translation-pair-text">
+          <span style={{ fontWeight: "bold" }}>{english}</span>
+          &nbsp; =&gt; &nbsp; {thai}
+        </div>
+        <div className="replace-button-container">
+          <div
+            className="replace-button"
+            onClick={() => {
+              replaceText("single");
+            }}
+          >
+            Replace
+          </div>
+          <div
+            className="replace-button replace-all-button"
+            onClick={() => {
+              replaceText("all");
+            }}
+          >
+            Replace All
+          </div>
         </div>
       </div>
       <div className="suggestion-item-separator"></div>

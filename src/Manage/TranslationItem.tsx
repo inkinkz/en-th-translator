@@ -61,6 +61,7 @@ const TranslationItem = (props: { unique_key: string }) => {
           [language]: thai
         });
       }
+      (document.activeElement as HTMLElement).blur();
       alert("Translation Updated!");
     }
   };
@@ -126,10 +127,9 @@ const TranslationItem = (props: { unique_key: string }) => {
               ) {
                 revertTranslation("english");
               } else if (event.key === "Enter" || event.keyCode === 13) {
-                (document.activeElement as HTMLElement).blur();
+                translationChange("english");
               }
             }}
-            onBlur={() => translationChange("english")}
           />
         </div>
       </div>
@@ -149,10 +149,9 @@ const TranslationItem = (props: { unique_key: string }) => {
               ) {
                 revertTranslation("thai");
               } else if (event.key === "Enter" || event.keyCode === 13) {
-                (document.activeElement as HTMLElement).blur();
+                translationChange("thai");
               }
             }}
-            onBlur={() => translationChange("thai")}
           />
         </div>
         <div

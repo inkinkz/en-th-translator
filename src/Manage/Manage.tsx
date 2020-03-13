@@ -117,6 +117,8 @@ const Manage = (props: any) => {
       setKeysToShow(keyToUse);
     }
 
+    return () => {};
+
     // eslint-disable-next-line
   }, [sortBy, setKeysToShow, uniqueKeys, uniqueKeysSortByUseCount, search]);
 
@@ -130,14 +132,38 @@ const Manage = (props: any) => {
 
   const addNewTranslation = async (): Promise<void> => {
     const ref = database.ref("translations");
+    let add = true;
+    ref.on(
+      "value",
+      snapshot => {
+        snapshot.forEach(childSnapshot => {
+          const snap = childSnapshot.val();
+          if (snap) {
+            if (
+              snap.thai === addData.thai.trim() &&
+              snap.english === addData.english.trim()
+            )
+              add = false;
+          }
+        });
+      },
+      (err: Error) => {
+        console.log(err);
+      }
+    );
+
     handleClose();
-    await ref.push({
-      english: addData.english,
-      thai: addData.thai,
-      use_count: 0
-    });
+    if (add) {
+      await ref.push({
+        english: addData.english.trim(),
+        thai: addData.thai.trim(),
+        use_count: 0
+      });
+      alert("Translation added successfully.");
+    } else {
+      alert("Translation Pair Already Exist!");
+    }
     setAddData({ english: "", thai: "" });
-    alert("Translation added successfully.");
   };
 
   const sortChange = () => {

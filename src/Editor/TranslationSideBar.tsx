@@ -22,6 +22,7 @@ const TranslationSideBar = forwardRef(
       currentWord: string;
       searchFor: (text: string) => void;
       replaceWithThai: (text: string) => void;
+      replaceAll: (text: string) => void;
       triggerSearch: (move: boolean) => void;
     },
     ref
@@ -50,13 +51,37 @@ const TranslationSideBar = forwardRef(
 
     const addNewTranslation = async (): Promise<void> => {
       const ref = database.ref("translations");
+      let add = true;
+      ref.on(
+        "value",
+        snapshot => {
+          snapshot.forEach(childSnapshot => {
+            const snap = childSnapshot.val();
+            if (snap) {
+              if (
+                snap.thai === addData.thai.trim() &&
+                snap.english === addData.english.trim()
+              )
+                add = false;
+            }
+          });
+        },
+        (err: Error) => {
+          console.log(err);
+        }
+      );
 
-      await ref.push({
-        english: addData.english,
-        thai: addData.thai
-      });
-      alert("Translation added successfully.");
       handleClose();
+      if (add) {
+        await ref.push({
+          english: addData.english.trim(),
+          thai: addData.thai.trim(),
+          use_count: 0
+        });
+        alert("Translation added successfully.");
+      } else {
+        alert("Translation Pair Already Exist!");
+      }
       setAddData({ english: "", thai: "" });
     };
 
@@ -149,6 +174,7 @@ const TranslationSideBar = forwardRef(
                 key={index}
                 current={keys}
                 searchFor={props.searchFor}
+                replaceAll={props.replaceAll}
                 replaceWithThai={props.replaceWithThai}
               />
             );

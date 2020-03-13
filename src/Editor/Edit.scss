@@ -88,22 +88,32 @@
       overflow-y: scroll;
       overflow-x: hidden;
       .suggestion-item {
-        padding: 1rem 1rem 0.5rem 1rem;
+        padding: 0.5rem 1rem 0.5rem 1rem;
         cursor: pointer;
         &:hover {
-          background-color: #f4f4f4;
+          background-color: #e9e7e7;
         }
-        .replace-button {
-          background: $color-light;
-          text-align: center;
-          border-radius: 8px;
-          font-weight: bold;
-          color: #696969;
-          margin: auto;
-          width: 50%;
-          &:hover {
-            background-color: $color-dark;
-            color: $color-white;
+
+        .translation-pair-text {
+          margin-bottom: 10px;
+        }
+        .replace-button-container {
+          display: flex;
+          .replace-button {
+            background: $color-light;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #696969;
+            margin: auto;
+            width: 30%;
+            &:hover {
+              background-color: $color-dark;
+              color: $color-white;
+            }
+          }
+          .replace-all-button {
+            width: 50%;
           }
         }
       }

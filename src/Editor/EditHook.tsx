@@ -38,12 +38,18 @@ const EditHook = () => {
   const [finished, setFinished] = useState(false);
 
   const triggerSearch = (move: boolean): void => {
-    console.log("triggerSearch()");
+    // console.log("triggerSearch()");
     const keyList: string[] = [];
     if (container !== null) {
       englishTexts.forEach((text: string, index: number) => {
         container.documentEditor.search.findAll(text);
         if (container.documentEditor.searchModule.searchResults.length > 0) {
+          console.log(
+            text +
+              " (Found " +
+              container.documentEditor.searchModule.searchResults.length +
+              " times.)"
+          );
           container.documentEditor.searchModule.searchResults.clear();
           keyList.push(uniqueKeysSortByUseCount[index]);
         }
@@ -107,6 +113,11 @@ const EditHook = () => {
     // container.documentEditor.searchModule.searchResults.clear();
   };
 
+  const replaceAll = (thai: string): void => {
+    container.documentEditor.searchModule.searchResults.replaceAll(thai);
+    // container.documentEditor.searchModule.searchResults.clear();
+  };
+
   // Delay before search
   // const [debouncedCallback] = useDebouncedCallback(() => {
   //   triggerSearch(false);
@@ -114,23 +125,33 @@ const EditHook = () => {
 
   const onContentChange = () => {
     // debouncedCallback();
-    console.log("content change");
+    // console.log("content change");
   };
 
   const onDocumentChange = () => {
     console.log("Document change triggered");
+    setFoundTexts([]);
   };
 
   const selectedText = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ): void => {
     e.preventDefault();
-    const text = container.documentEditor.selection.text.toLowerCase();
-    setCurrentWord(container.documentEditor.selection.text);
-    if (text.length > 2) {
-      const index = englishTexts.indexOf(text);
-      console.log(text);
-      if (index > 0) setFoundTexts([uniqueKeysSortByUseCount[index]]);
+    const text = container.documentEditor.selection.text.toLowerCase().trim();
+    setCurrentWord(container.documentEditor.selection.text.trim());
+    // const index = englishTexts.indexOf(text);
+    // if (index > -1) {
+    //   console.log(text, englishTexts[index]);
+    //   setFoundTexts([uniqueKeysSortByUseCount[index]]);
+    // } else
+    if (text.length > 1) {
+      const found: string[] = [];
+      englishTexts.forEach((englishText: string, index: number) => {
+        if (englishText.toLowerCase().includes(text.toLowerCase())) {
+          found.push(uniqueKeysSortByUseCount[index]);
+        }
+      });
+      setFoundTexts(found);
     }
   };
 
@@ -143,29 +164,28 @@ const EditHook = () => {
           className="e-de-ctn-title"
           style={{ background: "#db9e23", fontSize: "1rem" }}
         ></div>
-        <div
-          id="documenteditor-container-body"
-          onMouseUp={e => selectedText(e)}
-          ref={editorRef}
-        >
+        <div id="documenteditor-container-body" ref={editorRef}>
           <TranslationSideBar
             container={container}
             replaceWithThai={replaceWithThai}
+            replaceAll={replaceAll}
             searchFor={searchFor}
             triggerSearch={triggerSearch}
             currentWord={currentWord}
           />
-          <DocumentEditorContainerComponent
-            id="container"
-            className="main-editor"
-            ref={scope => {
-              container = scope!;
-            }}
-            enableToolbar={true}
-            enableLocalPaste={false}
-            documentChange={onDocumentChange}
-            contentChange={onContentChange}
-          />
+          <div onMouseUp={e => selectedText(e)}>
+            <DocumentEditorContainerComponent
+              id="container"
+              className="main-editor"
+              ref={scope => {
+                container = scope!;
+              }}
+              enableToolbar={true}
+              enableLocalPaste={false}
+              documentChange={onDocumentChange}
+              contentChange={onContentChange}
+            />
+          </div>
         </div>
       </div>
       {/* <script>
@@ -179,4 +199,4 @@ const EditHook = () => {
   );
 };
 
-export default withRouter(EditHook as any);
+export default withRouter(EditHook);
