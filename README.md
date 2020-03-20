@@ -32,3 +32,13 @@ MS Windows:
 
 Unix-like OS:
 `./gradlew ofbiz`
+
+### Visit OFBiz through your browser:
+
+[Order Back Office](https://localhost:8443/ordermgr)
+
+[Accounting Back Office](https://localhost:8443/accounting)
+
+[Administrator interface](https://localhost:8443/webtools)
+
+You can log in with the user **admin** and password **ofbiz**.
