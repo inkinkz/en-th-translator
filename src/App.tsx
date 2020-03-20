@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import "./App.scss";
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Home from "./Home/Home";
 import Edit from "./Editor/EditHook";
 import Manage from "./Manage/Manage";
@@ -85,15 +85,14 @@ const App = () => {
   ]);
 
   return (
-    <React.Fragment>
-      <HashRouter>
-        <React.Fragment>
-          <Route path="/edit" component={Edit} />
-          <Route path="/manage" component={Manage} />
-          <Route path="/" component={Home} />
-        </React.Fragment>
-      </HashRouter>
-    </React.Fragment>
+    <HashRouter>
+      <Switch>
+        <Route path="/edit" component={Edit} />
+        <Route path="/manage" component={Manage} />
+        <Route path="/" component={Home} />
+        <Redirect to="/" />
+      </Switch>
+    </HashRouter>
   );
 };
 

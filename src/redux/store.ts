@@ -1,12 +1,6 @@
-import { createStore } from "redux";
+import { createStore, compose } from "redux";
 import { PatentTranslator } from "./types";
-import {
-  SET_ENGLISH_TEXTS,
-  SET_UNIQUE_KEYS,
-  SET_FOUND_TEXTS,
-  SET_UNIQUE_KEYS_SORT_BY_USE_COUNT,
-  SET_KEYS_TO_SHOW
-} from "./actions";
+import * as actionTypes from "./actions";
 
 const initialState: PatentTranslator = {
   englishTexts: [],
@@ -17,31 +11,31 @@ const initialState: PatentTranslator = {
 };
 
 const reducer = (
-  state: PatentTranslator,
+  state = initialState,
   action: { [key: string]: string | string[] }
 ) => {
   switch (action.type) {
-    case SET_ENGLISH_TEXTS:
+    case actionTypes.SET_ENGLISH_TEXTS:
       return {
         ...state,
         englishTexts: action.payload
       };
-    case SET_UNIQUE_KEYS:
+    case actionTypes.SET_UNIQUE_KEYS:
       return {
         ...state,
         uniqueKeys: action.payload
       };
-    case SET_UNIQUE_KEYS_SORT_BY_USE_COUNT:
+    case actionTypes.SET_UNIQUE_KEYS_SORT_BY_USE_COUNT:
       return {
         ...state,
         uniqueKeysSortByUseCount: action.payload
       };
-    case SET_KEYS_TO_SHOW:
+    case actionTypes.SET_KEYS_TO_SHOW:
       return {
         ...state,
         keysToShow: action.payload
       };
-    case SET_FOUND_TEXTS:
+    case actionTypes.SET_FOUND_TEXTS:
       return {
         ...state,
         foundTexts: action.payload
@@ -51,9 +45,9 @@ const reducer = (
   }
 };
 
-export const store = createStore(
-  reducer as any,
-  initialState,
-  (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-);
+const composeEnhancers =
+  process.env.NODE_ENV === "development"
+    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : null || compose;
+
+export const store = createStore(reducer as any, composeEnhancers());

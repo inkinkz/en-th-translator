@@ -49,6 +49,7 @@ const Manage = (props: any) => {
   const uniqueKeysSortByUseCount = useSelector(
     (state: PatentTranslator) => state.uniqueKeysSortByUseCount
   );
+  const keysToShow = useSelector((state: PatentTranslator) => state.keysToShow);
 
   const setKeysToShow = useCallback(
     (keys: string[]) => dispatch({ type: SET_KEYS_TO_SHOW, payload: keys }),
@@ -59,8 +60,6 @@ const Manage = (props: any) => {
     content: "Add new translation.",
     position: "LeftCenter"
   });
-
-  const keysToShow = useSelector((state: PatentTranslator) => state.keysToShow);
 
   const Row = ({ index, style }: any) => {
     return (
