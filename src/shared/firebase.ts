@@ -12,7 +12,7 @@ const firebaseConfig = {
   projectId: "patent-translation-data",
   storageBucket: "patent-translation-data.appspot.com",
   messagingSenderId: "399898410810",
-  appId: "1:399898410810:web:9dade115663d79c6a69a03"
+  appId: "1:399898410810:web:9dade115663d79c6a69a03",
 };
 
 firebase.initializeApp(firebaseConfig);

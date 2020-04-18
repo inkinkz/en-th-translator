@@ -11,7 +11,7 @@
   "build": {
     "appId": "com.inkz.app",
     "productName": "Patent Translator",
-    "copyright": "Copyright © 2019 ${author}",
+    "copyright": "Copyright © 2020 ${author}",
     "mac": {
       "category": "utilities",
       "icon": "./public/icon.png"
@@ -31,7 +31,6 @@
   "dependencies": {
     "@syncfusion/ej2-base": "^17.4.43",
     "@syncfusion/ej2-buttons": "^17.4.43",
-    "@syncfusion/ej2-compression": "^17.4.43",
     "@syncfusion/ej2-documenteditor": "^17.4.43",
     "@syncfusion/ej2-dropdowns": "^17.4.44",
     "@syncfusion/ej2-file-utils": "^17.4.43",
@@ -44,7 +43,6 @@
     "@syncfusion/ej2-react-documenteditor": "^17.4.43",
     "@syncfusion/ej2-splitbuttons": "^17.4.43",
     "bootstrap": "^4.4.1",
-    "dotenv": "^8.2.0",
     "electron-is-dev": "^1.1.0",
     "firebase": "^7.8.0",
     "react": "^16.11.0",
@@ -102,12 +100,9 @@
     "electron": "^7.1.0",
     "electron-builder": "^22.1.0",
     "eslint": "^6.6.0",
-    "eslint-config-prettier": "^6.5.0",
     "eslint-config-react": "^1.1.7",
-    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "node-sass": "^4.13.1",
-    "prettier": "^1.18.2",
     "typescript": "^3.7.2",
     "wait-on": "^3.3.0"
   }

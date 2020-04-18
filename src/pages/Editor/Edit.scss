@@ -1,0 +1,80 @@
+@import "../../../node_modules/@syncfusion/ej2-buttons/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-layouts/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-react-documenteditor/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-base/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-icons/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-splitbuttons/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-inputs/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-lists/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-navigations/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-popups/styles/bootstrap4.css";
+@import "../../../node_modules/@syncfusion/ej2-dropdowns/styles/bootstrap4.css";
+@import "../../App.scss";
+
+// .e-icons {
+//   color: #fff;
+//   font-size: 1.1rem;
+// }
+.e-download:before {
+  content: "\e75d";
+}
+.e-print:before {
+  font-size: 1rem;
+  content: "\e743";
+}
+.e-home:before {
+  content: "\e772";
+}
+.e-manage:before {
+  content: "\e7fc";
+}
+
+#AutosaveLog b {
+  color: #388e3c;
+}
+
+#AutosaveLog hr {
+  margin: 1px 10px 1px 0px;
+  border-top: 1px solid #eee;
+}
+
+.property-panel-table div {
+  padding-left: 0px;
+}
+
+.heading-section {
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.control-label {
+  padding-bottom: 15px;
+}
+
+.e-de-padding-right-rtl {
+  float: right;
+  padding-top: 2px;
+  padding-left: 12px;
+}
+
+.control-pane,
+.control-section {
+  height: 100vh;
+  font-family: $main-font;
+}
+
+#documenteditor-container-body {
+  height: calc(100% - 40px);
+  display: flex;
+
+  .main-editor {
+    flex: 1;
+    height: 100%;
+    max-width: calc(100vw - 300px);
+  }
+}
+
+.form-control:focus {
+  border-color: $color-primary;
+  box-shadow: 0 0 0 0.2rem rgba(223, 168, 56, 0.25);
+}

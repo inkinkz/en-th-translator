@@ -3,14 +3,14 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import "./Edit.scss";
 import {
   DocumentEditorContainerComponent,
-  Toolbar
+  Toolbar,
 } from "@syncfusion/ej2-react-documenteditor";
 import { TitleBar } from "./title-bar.js";
 import { withRouter } from "react-router-dom";
-import TranslationSideBar from "./TranslationSideBar";
+import TranslationSideBar from "../../components/TranslationSideBar/TranslationSideBar";
 import { useDispatch, useSelector } from "react-redux";
-import { PatentTranslator } from "../redux/types";
-import { SET_FOUND_TEXTS } from "../redux/actions";
+import { PatentTranslator } from "../../shared/redux/types";
+import { SET_FOUND_TEXTS } from "../../shared/redux/actions";
 
 DocumentEditorContainerComponent.Inject(Toolbar);
 
@@ -38,7 +38,6 @@ const EditHook = () => {
   const [finished, setFinished] = useState(false);
 
   const triggerSearch = (move: boolean): void => {
-    // console.log("triggerSearch()");
     const keyList: string[] = [];
     if (container !== null) {
       englishTexts.forEach((text: string, index: number) => {
@@ -54,7 +53,6 @@ const EditHook = () => {
           keyList.push(uniqueKeysSortByUseCount[index]);
         }
       });
-      // console.log(keyList);
       if (move) container.documentEditor.selection.moveToDocumentStart();
 
       setFoundTexts(keyList);
@@ -67,32 +65,26 @@ const EditHook = () => {
       container.documentEditor.pageOutline = "#E0E0E0";
       container.documentEditor.acceptTab = true;
       container.documentEditor.resize();
-      // console.log("newTitleBar");
       titleBar.current = new TitleBar(
         titleBar.current,
         container.documentEditor,
         true
       );
-      // console.log("rerdereComplete()");
     };
 
     const onLoadDefault = () => {
       container.documentEditor.documentName = "Patent Translator";
       titleBar.current.updateDocumentTitle();
-      // console.log("onLoadDefault()");
     };
 
     const onDocumentLoad = () => {
       container.documentEditor.documentChange = () => {
         titleBar.current.updateDocumentTitle();
-        // container.documentEditor.focusIn();
-        console.log("onDocumentLoad");
         triggerSearch(true);
       };
     };
 
     setTimeout(() => {
-      // console.log("setTimeout()");
       if (!finished) {
         rendereComplete();
         onLoadDefault();
@@ -110,11 +102,13 @@ const EditHook = () => {
 
   const replaceWithThai = (thai: string): void => {
     container.documentEditor.searchModule.searchResults.replace(thai);
-    // container.documentEditor.searchModule.searchResults.clear();
+    container.documentEditor.searchModule.searchResults.clear();
+    container.documentEditor.search.find(thai);
   };
 
   const replaceAll = (thai: string): void => {
     container.documentEditor.searchModule.searchResults.replaceAll(thai);
+    triggerSearch(false);
     // container.documentEditor.searchModule.searchResults.clear();
   };
 
@@ -123,10 +117,10 @@ const EditHook = () => {
   //   triggerSearch(false);
   // }, 1000);
 
-  const onContentChange = () => {
-    // debouncedCallback();
-    // console.log("content change");
-  };
+  // Search for translation when typing
+  // const onContentChange = () => {
+  //   // debouncedCallback();
+  // };
 
   const onDocumentChange = () => {
     console.log("Document change triggered");
@@ -139,11 +133,6 @@ const EditHook = () => {
     e.preventDefault();
     const text = container.documentEditor.selection.text.toLowerCase().trim();
     setCurrentWord(container.documentEditor.selection.text.trim());
-    // const index = englishTexts.indexOf(text);
-    // if (index > -1) {
-    //   console.log(text, englishTexts[index]);
-    //   setFoundTexts([uniqueKeysSortByUseCount[index]]);
-    // } else
     if (text.length > 1) {
       const found: string[] = [];
       englishTexts.forEach((englishText: string, index: number) => {
@@ -173,28 +162,31 @@ const EditHook = () => {
             triggerSearch={triggerSearch}
             currentWord={currentWord}
           />
-          <div onMouseUp={e => selectedText(e)}>
+          <div onMouseUp={(e) => selectedText(e)}>
             <DocumentEditorContainerComponent
               id="container"
               className="main-editor"
-              ref={scope => {
+              ref={(scope) => {
                 container = scope!;
               }}
               enableToolbar={true}
               enableLocalPaste={false}
               documentChange={onDocumentChange}
-              contentChange={onContentChange}
+              // contentChange={onContentChange}
             />
           </div>
         </div>
       </div>
-      {/* <script>
+
+      {/* Remove when build Electron */}
+      <script>
         {
-          (window.onbeforeunload = function() {
-            return "Want to save your changes?";
+          (window.onbeforeunload = () => {
+            return "Did you save your changes?";
           })
         }
-      </script> */}
+      </script>
+      {/*  */}
     </div>
   );
 };

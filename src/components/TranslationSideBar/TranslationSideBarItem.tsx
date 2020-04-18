@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./Edit.scss";
-import { database } from "../firebase";
+import "./TranslationSideBar.scss";
+import { database } from "../../shared/firebase";
 
 const TranslationSideBar = (props: {
   current: string;
@@ -15,7 +15,7 @@ const TranslationSideBar = (props: {
     database
       .ref("translations")
       .child(props.current)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         const item = snapshot.val();
         if (item) {
           setEnglish(item.english);
@@ -29,7 +29,7 @@ const TranslationSideBar = (props: {
     let count: number;
 
     ref
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         const data = snapshot.val();
         count = data.use_count + 1;
       })

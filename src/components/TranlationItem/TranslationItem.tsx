@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./Manage.scss";
+import "./TranslationItem.scss";
 import { Tooltip } from "@syncfusion/ej2-popups";
-import { database } from "../firebase";
-import Modal from "react-bootstrap/Modal";
+import { database } from "../../shared/firebase";
+import DeleteTranslationModal from "../DeleteTranslationModal/DeleteTranslationModal";
 
 const TranslationItem = (props: { unique_key: string }) => {
   const delToolTip: Tooltip = new Tooltip({
     content: "Delete this translation.",
-    position: "LeftCenter"
+    position: "LeftCenter",
   });
 
   const [english, setEnglish] = useState<string>("");
@@ -42,7 +42,7 @@ const TranslationItem = (props: { unique_key: string }) => {
     // Reference the key
     const keyRef = database.ref("translations/" + props.unique_key);
 
-    await keyRef.child(language).once("value", snapshot => {
+    await keyRef.child(language).once("value", (snapshot) => {
       const data = snapshot.val();
       if (language === "english") {
         if (data.trim() === english.trim()) duplicate = true;
@@ -54,11 +54,11 @@ const TranslationItem = (props: { unique_key: string }) => {
     if (!duplicate) {
       if (language === "english") {
         keyRef.update({
-          [language]: english
+          [language]: english,
         });
       } else {
         keyRef.update({
-          [language]: thai
+          [language]: thai,
         });
       }
       (document.activeElement as HTMLElement).blur();
@@ -69,7 +69,7 @@ const TranslationItem = (props: { unique_key: string }) => {
   // When user pressed "ESC", revert translation back to what saved in the database.
   const revertTranslation = (language: string): void => {
     const ref = database.ref("translations");
-    ref.child(props.unique_key).on("value", snapshot => {
+    ref.child(props.unique_key).on("value", (snapshot) => {
       if (language === "thai") {
         setThai(snapshot.child("thai").val());
       } else if (language === "english") {
@@ -80,46 +80,25 @@ const TranslationItem = (props: { unique_key: string }) => {
     return;
   };
 
-  const deleteTranslation = (): void => {
-    database.ref("translations/" + props.unique_key).remove();
-    alert("Removed successfully!");
-    handleClose();
-  };
-
   return (
     <div className="translation-item">
-      <Modal show={show} onHide={handleClose} centered={true}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete this tranlation?</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>{english}</p>
-          <p>{thai}</p>
-          <p>Use Count: {useCount} </p>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <button className="modal-button-cancel" onClick={() => handleClose()}>
-            CANCEL
-          </button>
-          <button
-            className="modal-button-ok"
-            onClick={() => deleteTranslation()}
-          >
-            CONFIRM
-          </button>
-        </Modal.Footer>
-      </Modal>
+      <DeleteTranslationModal
+        unique_key={props.unique_key}
+        handleClose={handleClose}
+        show={show}
+        thai={thai}
+        english={english}
+        useCount={useCount}
+      />
       <div className="translation">
         <div className="translation-input">
           <input
             type="text"
             value={english}
-            onChange={e => {
+            onChange={(e) => {
               setEnglish(e.target.value);
             }}
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               if (
                 event.key === "Escape" ||
                 event.key === "Esc" ||
@@ -138,10 +117,10 @@ const TranslationItem = (props: { unique_key: string }) => {
           <input
             type="text"
             value={thai}
-            onChange={e => {
+            onChange={(e) => {
               setThai(e.target.value);
             }}
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               if (
                 event.key === "Escape" ||
                 event.key === "Esc" ||

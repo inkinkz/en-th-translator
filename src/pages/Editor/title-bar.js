@@ -7,10 +7,10 @@ import * as ej2_splitbuttons_1 from "@syncfusion/ej2-splitbuttons";
  * Represents document editor title bar.
  */
 
-export const TitleBar = /** @class */ (function() {
+export const TitleBar = /** @class */ (function () {
   function TitleBar(element, docEditor, isShareNeeded, isRtl) {
     const _this = this;
-    this.initializeTitleBar = function(isShareNeeded) {
+    this.initializeTitleBar = function (isShareNeeded) {
       const downloadText = "Save";
       const downloadToolTip = "Save this document.";
       const printText = "Print";
@@ -27,7 +27,7 @@ export const TitleBar = /** @class */ (function() {
       _this.documentTitle = ej2_base_1.createElement("label", {
         id: "documenteditor_title_name",
         styles:
-          "font-weight:400;text-overflow:ellipsis;white-space:pre;overflow:hidden;user-select:none;cursor:text"
+          "font-weight:400;text-overflow:ellipsis;white-space:pre;overflow:hidden;user-select:none;cursor:text",
       });
       let iconCss = "e-de-padding-right";
       let btnFloatStyle = "float:right;";
@@ -41,7 +41,7 @@ export const TitleBar = /** @class */ (function() {
       _this.documentTitleContentEditor = ej2_base_1.createElement("div", {
         id: "documenteditor_title_contentEditor",
         className: "single-line",
-        styles: titleCss
+        styles: titleCss,
       });
       _this.documentTitleContentEditor.appendChild(_this.documentTitle);
       _this.tileBarDiv.appendChild(_this.documentTitleContentEditor);
@@ -52,6 +52,7 @@ export const TitleBar = /** @class */ (function() {
         "border-radius: 2px;color:inherit;font-size:14px;text-transform:capitalize;height:28px;font-weight:400;margin-top: 2px;";
 
       _this.manage = _this.addButton(
+        "#/manage",
         "e-icons e-manage",
         manageText,
         btnStyles,
@@ -60,6 +61,7 @@ export const TitleBar = /** @class */ (function() {
         false
       );
       _this.home = _this.addButton(
+        "#/",
         "e-icons e-home",
         homeText,
         btnStyles,
@@ -68,6 +70,7 @@ export const TitleBar = /** @class */ (function() {
         false
       );
       _this.print = _this.addButton(
+        "",
         "e-icons e-print",
         printText,
         btnStyles,
@@ -76,6 +79,7 @@ export const TitleBar = /** @class */ (function() {
         false
       );
       _this.open = _this.addButton(
+        "",
         "e-de-icon-Open " + iconCss,
         openText,
         btnStyles,
@@ -85,10 +89,11 @@ export const TitleBar = /** @class */ (function() {
       );
       const items = [
         { text: "Microsoft Word (.docx)", id: "word" },
-        { text: "Syncfusion Document Text (.sfdt)", id: "sfdt" }
+        { text: "Syncfusion Document Text (.sfdt)", id: "sfdt" },
       ];
       // tslint:disable-next-line:max-line-length
       _this.export = _this.addButton(
+        "",
         "e-icons e-download",
         // "e-de-icon-Download " + iconCss,
         downloadText,
@@ -104,18 +109,20 @@ export const TitleBar = /** @class */ (function() {
         _this.open.element.style.display = "none";
       }
     };
-    this.wireEvents = function() {
+    this.wireEvents = function () {
       _this.print.element.addEventListener("click", _this.onPrint);
       _this.home.element.addEventListener("click", _this.onHome);
       _this.manage.element.addEventListener("click", _this.onManage);
-      _this.open.element.addEventListener("click", function(e) {
+      _this.open.element.addEventListener("click", function (e) {
         if (e.target.id === "de-open") {
           const fileUpload = document.getElementById("uploadfileButton");
           fileUpload.value = "";
           fileUpload.click();
         }
       });
-      _this.documentTitleContentEditor.addEventListener("keydown", function(e) {
+      _this.documentTitleContentEditor.addEventListener("keydown", function (
+        e
+      ) {
         if (e.keyCode === 13) {
           e.preventDefault();
           _this.documentTitleContentEditor.contentEditable = "false";
@@ -124,45 +131,45 @@ export const TitleBar = /** @class */ (function() {
           }
         }
       });
-      _this.documentTitleContentEditor.addEventListener("blur", function() {
+      _this.documentTitleContentEditor.addEventListener("blur", function () {
         if (_this.documentTitleContentEditor.textContent === "") {
           _this.documentTitleContentEditor.textContent = "Document1";
         }
         _this.documentTitleContentEditor.contentEditable = "false";
         _this.documentEditor.documentName = _this.documentTitle.textContent;
       });
-      _this.documentTitleContentEditor.addEventListener("click", function() {
+      _this.documentTitleContentEditor.addEventListener("click", function () {
         _this.updateDocumentEditorTitle();
       });
     };
-    this.updateDocumentEditorTitle = function() {
+    this.updateDocumentEditorTitle = function () {
       _this.documentTitleContentEditor.contentEditable = "true";
       _this.documentTitleContentEditor.focus();
       window.getSelection().selectAllChildren(_this.documentTitleContentEditor);
     };
     // Updates document title.
-    this.updateDocumentTitle = function() {
+    this.updateDocumentTitle = function () {
       if (_this.documentEditor.documentName === "") {
         _this.documentEditor.documentName = "Untitled";
       }
       _this.documentTitle.textContent = _this.documentEditor.documentName;
     };
-    this.onPrint = function() {
+    this.onPrint = function () {
       _this.documentEditor.print();
     };
-    this.onHome = function() {
+    this.onHome = function () {
       const ask = window.confirm("Did you save your work?");
       if (ask) {
         window.location.href = "#/";
       }
     };
-    this.onManage = function() {
+    this.onManage = function () {
       const ask = window.confirm("Did you save your work?");
       if (ask) {
         window.location.href = "#/manage";
       }
     };
-    this.onExportClick = function(args) {
+    this.onExportClick = function (args) {
       const value = args.item.id;
       switch (value) {
         case "word":
@@ -175,7 +182,7 @@ export const TitleBar = /** @class */ (function() {
           break;
       }
     };
-    this.save = function(format) {
+    this.save = function (format) {
       // tslint:disable-next-line:max-line-length
       _this.documentEditor.save(
         _this.documentEditor.documentName === ""
@@ -191,7 +198,7 @@ export const TitleBar = /** @class */ (function() {
     this.initializeTitleBar(isShareNeeded);
     this.wireEvents();
   }
-  TitleBar.prototype.setTooltipForPopup = function() {
+  TitleBar.prototype.setTooltipForPopup = function () {
     // tslint:disable-next-line:max-line-length
     document
       .getElementById("documenteditor-share-popup")
@@ -209,8 +216,8 @@ export const TitleBar = /** @class */ (function() {
         "Save a copy of this document to your computer as an SFDT file."
       );
   };
-  // tslint:disable-next-line:max-line-length
-  TitleBar.prototype.addButton = function(
+  TitleBar.prototype.addButton = function (
+    href,
     iconClass,
     btnText,
     styles,
@@ -220,14 +227,15 @@ export const TitleBar = /** @class */ (function() {
     items
   ) {
     const _this = this;
-    const button = ej2_base_1.createElement("button", {
+    const button = ej2_base_1.createElement("a", {
       id: id,
-      styles: styles
+      styles: styles,
     });
     this.tileBarDiv.appendChild(button);
     button.setAttribute("title", tooltipText);
+    // Enables right click and open in new tab
+    // if (href !== "") button.setAttribute("href", href);
     if (isDropDown) {
-      // tslint:disable-next-line:max-line-length
       const dropButton = new ej2_splitbuttons_1.DropDownButton(
         {
           select: this.onExportClick,
@@ -235,9 +243,9 @@ export const TitleBar = /** @class */ (function() {
           iconCss: iconClass,
           cssClass: "e-caret-hide",
           content: btnText,
-          open: function() {
+          open: function () {
             _this.setTooltipForPopup();
-          }
+          },
         },
         button
       );

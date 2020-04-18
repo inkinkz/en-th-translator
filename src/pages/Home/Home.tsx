@@ -1,7 +1,7 @@
 import React from "react";
 import "./Home.scss";
 import { RouteComponentProps } from "react-router";
-import logo from "./translate.svg";
+import logo from "../../shared/images/translate.svg";
 import { withRouter } from "react-router-dom";
 
 // import { PatentTranslator } from "../redux/types";
