@@ -12,7 +12,7 @@ const TranslationItem = (props: any) => {
   return (
     <Modal show={props.show} onHide={props.handleClose} centered={true}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete this tranlation?</Modal.Title>
+        <Modal.Title>Delete this translation?</Modal.Title>
       </Modal.Header>
 
       <Modal.Body style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
