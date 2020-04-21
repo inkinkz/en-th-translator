@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import "./TranslationSideBar.scss";
 import { DocumentEditorContainerComponent } from "@syncfusion/ej2-react-documenteditor";
 import { useSelector } from "react-redux";
-import { PatentTranslator } from "../../shared/redux/types";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList as List } from "react-window";
+import { PatentTranslator } from "../../shared/types";
 import TranslationSideBarItem from "./TranslationSideBarItem";
 import AddTranslationModal from "../AddTranslationModal/AddTranslationModal";
 
@@ -23,6 +25,23 @@ const TranslationSideBar = (props: {
     setShow(true);
   };
 
+  const Row = ({ index, style }: any) => {
+    return (
+      <>
+        <div style={style}>
+          <TranslationSideBarItem
+            key={index}
+            current={foundTexts[index].word}
+            count={foundTexts[index].count}
+            searchFor={props.searchFor}
+            replaceAll={props.replaceAll}
+            replaceWithThai={props.replaceWithThai}
+          ></TranslationSideBarItem>
+        </div>
+      </>
+    );
+  };
+
   return (
     <div className="suggestion-panel">
       <AddTranslationModal show={show} handleClose={handleClose} />
@@ -35,7 +54,7 @@ const TranslationSideBar = (props: {
       </h2>
 
       <div className="suggestion-items-container">
-        {foundTexts.map((keys: string, index: number) => {
+        {/* {foundTexts.map((keys: string, index: number) => {
           return (
             <TranslationSideBarItem
               key={index}
@@ -45,7 +64,23 @@ const TranslationSideBar = (props: {
               replaceWithThai={props.replaceWithThai}
             />
           );
-        })}
+        })} */}
+
+        <div className="auto-sizer">
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                style={{ overflowX: "hidden" }}
+                height={height}
+                itemCount={foundTexts.length}
+                itemSize={100}
+                width={width}
+              >
+                {Row}
+              </List>
+            )}
+          </AutoSizer>
+        </div>
       </div>
 
       <div className="suggestion-footer" onClick={handleShow}>

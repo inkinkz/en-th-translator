@@ -9,8 +9,9 @@ import { TitleBar } from "./title-bar.js";
 import { withRouter } from "react-router-dom";
 import TranslationSideBar from "../../components/TranslationSideBar/TranslationSideBar";
 import { useDispatch, useSelector } from "react-redux";
-import { PatentTranslator } from "../../shared/redux/types";
+import { PatentTranslator } from "../../shared/types";
 import { SET_FOUND_TEXTS } from "../../shared/redux/actions";
+import { FoundText } from "../../shared/types";
 
 DocumentEditorContainerComponent.Inject(Toolbar);
 
@@ -31,26 +32,26 @@ const EditHook = () => {
   );
 
   const setFoundTexts = useCallback(
-    (keys: string[]) => dispatch({ type: SET_FOUND_TEXTS, payload: keys }),
+    (keys: FoundText[]) => dispatch({ type: SET_FOUND_TEXTS, payload: keys }),
     [dispatch]
   );
 
   const [finished, setFinished] = useState(false);
 
   const triggerSearch = (move: boolean): void => {
-    const keyList: string[] = [];
+    const keyList: FoundText[] = [];
     if (container !== null) {
       englishTexts.forEach((text: string, index: number) => {
         container.documentEditor.search.findAll(text);
+
         if (container.documentEditor.searchModule.searchResults.length > 0) {
-          console.log(
-            text +
-              " (Found " +
-              container.documentEditor.searchModule.searchResults.length +
-              " times.)"
-          );
+          const count = +container.documentEditor.searchModule.searchResults
+            .length;
           container.documentEditor.searchModule.searchResults.clear();
-          keyList.push(uniqueKeysSortByUseCount[index]);
+          keyList.push({
+            word: uniqueKeysSortByUseCount[index],
+            count,
+          });
         }
       });
       if (move) container.documentEditor.selection.moveToDocumentStart();
@@ -134,11 +135,22 @@ const EditHook = () => {
     const text = container.documentEditor.selection.text.toLowerCase().trim();
     setCurrentWord(container.documentEditor.selection.text.trim());
     if (text.length > 1) {
-      const found: string[] = [];
+      const found: FoundText[] = [];
       englishTexts.forEach((englishText: string, index: number) => {
-        if (englishText.toLowerCase().includes(text.toLowerCase())) {
-          found.push(uniqueKeysSortByUseCount[index]);
+        // Check perfect match
+        if (englishText.toLowerCase() === text.toLowerCase()) {
+          found.push({
+            word: uniqueKeysSortByUseCount[index],
+            count: 1,
+          });
         }
+        // Check for includes
+        // if (englishText.toLowerCase().includes(text.toLowerCase())) {
+        //   found.push({
+        //     word: uniqueKeysSortByUseCount[index],
+        //     count: 1,
+        //   });
+        // }
       });
       setFoundTexts(found);
     }
@@ -179,13 +191,13 @@ const EditHook = () => {
       </div>
 
       {/* Remove when build Electron */}
-      <script>
+      {/* <script>
         {
           (window.onbeforeunload = () => {
             return "Did you save your changes?";
           })
         }
-      </script>
+      </script> */}
       {/*  */}
     </div>
   );

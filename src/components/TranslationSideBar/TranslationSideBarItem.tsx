@@ -4,6 +4,7 @@ import { database } from "../../shared/firebase";
 
 const TranslationSideBar = (props: {
   current: string;
+  count: number;
   searchFor: (text: string) => void;
   replaceWithThai: (text: string) => void;
   replaceAll: (text: string) => void;
@@ -51,7 +52,9 @@ const TranslationSideBar = (props: {
       >
         <div className="translation-pair-text">
           <span style={{ fontWeight: "bold" }}>{english}</span>
-          &nbsp; =&gt; &nbsp; {thai}
+          {/* &nbsp; =&gt; &nbsp;  */}
+          &nbsp; &hArr; &nbsp;
+          {thai}
         </div>
         <div className="replace-button-container">
           <div
@@ -70,9 +73,12 @@ const TranslationSideBar = (props: {
           >
             Replace All
           </div>
+          <div className="count">
+            <span style={{ fontWeight: "bold" }}>{props.count}</span>
+            &nbsp; time(s)
+          </div>
         </div>
       </div>
-      <div className="suggestion-item-separator"></div>
     </React.Fragment>
   );
 };

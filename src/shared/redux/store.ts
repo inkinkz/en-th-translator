@@ -1,44 +1,45 @@
 import { createStore, compose } from "redux";
-import { PatentTranslator } from "./types";
+import { PatentTranslator } from "../types";
 import * as actionTypes from "./actions";
+import { FoundText } from "../types";
 
 const initialState: PatentTranslator = {
   englishTexts: [],
   uniqueKeys: [],
   uniqueKeysSortByUseCount: [],
   keysToShow: [],
-  foundTexts: []
+  foundTexts: [],
 };
 
 const reducer = (
   state = initialState,
-  action: { [key: string]: string | string[] }
+  action: { [key: string]: string | string[] | FoundText }
 ) => {
   switch (action.type) {
     case actionTypes.SET_ENGLISH_TEXTS:
       return {
         ...state,
-        englishTexts: action.payload
+        englishTexts: action.payload,
       };
     case actionTypes.SET_UNIQUE_KEYS:
       return {
         ...state,
-        uniqueKeys: action.payload
+        uniqueKeys: action.payload,
       };
     case actionTypes.SET_UNIQUE_KEYS_SORT_BY_USE_COUNT:
       return {
         ...state,
-        uniqueKeysSortByUseCount: action.payload
+        uniqueKeysSortByUseCount: action.payload,
       };
     case actionTypes.SET_KEYS_TO_SHOW:
       return {
         ...state,
-        keysToShow: action.payload
+        keysToShow: action.payload,
       };
     case actionTypes.SET_FOUND_TEXTS:
       return {
         ...state,
-        foundTexts: action.payload
+        foundTexts: action.payload,
       };
     default:
       return state;

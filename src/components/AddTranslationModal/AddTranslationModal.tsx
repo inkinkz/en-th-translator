@@ -3,7 +3,7 @@ import "./AddTranslationModal.scss";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import { AddData } from "../../App";
+import { AddData } from "../../shared/types";
 import { database } from "../../shared/firebase";
 
 const AddTranslationModal = (props: any) => {

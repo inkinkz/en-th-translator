@@ -15,7 +15,7 @@ const TranslationItem = (props: any) => {
         <Modal.Title>Delete this tranlation?</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
+      <Modal.Body style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
         <p>{props.english}</p>
         <p>{props.thai}</p>
         <p>Use Count: {props.useCount} </p>

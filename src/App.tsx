@@ -13,11 +13,6 @@ import {
   SET_UNIQUE_KEYS_SORT_BY_USE_COUNT,
 } from "./shared/redux/actions";
 
-export interface AddData {
-  english: string;
-  thai: string;
-}
-
 const App = () => {
   const dispatch = useDispatch();
   const setUniqueKeys = useCallback(

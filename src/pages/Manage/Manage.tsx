@@ -9,7 +9,7 @@ import { database } from "../../shared/firebase";
 import Form from "react-bootstrap/Form";
 
 import { useSelector, useDispatch } from "react-redux";
-import { PatentTranslator } from "../../shared/redux/types";
+import { PatentTranslator } from "../../shared/types";
 import { SET_KEYS_TO_SHOW } from "../../shared/redux/actions";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -61,6 +61,7 @@ const Manage = (props: any) => {
       </div>
     );
   };
+
   // Delay before search
   const [debouncedCallback] = useDebouncedCallback(() => {
     triggerSearch(!search);
