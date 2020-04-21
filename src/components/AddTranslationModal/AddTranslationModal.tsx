@@ -21,8 +21,12 @@ const AddTranslationModal = (props: any) => {
       setTimeout(() => {
         if (engRef.current) engRef.current.focus();
       }, 100);
+
+      if (props.currentWord) {
+        setAddData({ english: props.currentWord, thai: "" });
+      }
     }
-  }, [props.show]);
+  }, [props.show, props.currentWord]);
 
   const addNewTranslation = async (): Promise<void> => {
     const ref = database.ref("translations");

@@ -44,7 +44,11 @@ const TranslationSideBar = (props: {
 
   return (
     <div className="suggestion-panel">
-      <AddTranslationModal show={show} handleClose={handleClose} />
+      <AddTranslationModal
+        show={show}
+        handleClose={handleClose}
+        currentWord={props.currentWord}
+      />
 
       <h2
         className="suggestion-header"
