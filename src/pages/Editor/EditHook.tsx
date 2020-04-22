@@ -18,9 +18,12 @@ DocumentEditorContainerComponent.Inject(Toolbar);
 const EditHook = () => {
   const hostUrl = "https://ej2services.syncfusion.com/production/web-services/";
   let container!: DocumentEditorContainerComponent;
-  const titleBar: any = useRef(null);
 
   const [currentWord, setCurrentWord] = useState("");
+
+  const [showLoading, setShowLoading] = useState(false);
+
+  const titleBar: any = useRef(null);
   const editorRef: any = useRef();
 
   const dispatch = useDispatch();
@@ -38,7 +41,23 @@ const EditHook = () => {
 
   const [finished, setFinished] = useState(false);
 
-  const triggerSearch = (move: boolean): void => {
+  const search = (move: boolean) => {
+    setShowLoading(true);
+    const ct = container;
+    setTimeout(
+      async () => {
+        await triggerSearch(move, ct);
+        setShowLoading(false);
+      },
+      200,
+      ct
+    );
+  };
+
+  const triggerSearch = async (
+    move: boolean,
+    container: DocumentEditorContainerComponent
+  ): Promise<void> => {
     const keyList: FoundText[] = [];
     if (container !== null) {
       englishTexts.forEach((text: string, index: number) => {
@@ -54,6 +73,7 @@ const EditHook = () => {
           });
         }
       });
+
       if (move) container.documentEditor.selection.moveToDocumentStart();
 
       setFoundTexts(keyList);
@@ -81,7 +101,7 @@ const EditHook = () => {
     const onDocumentLoad = () => {
       container.documentEditor.documentChange = () => {
         titleBar.current.updateDocumentTitle();
-        triggerSearch(true);
+        // triggerSearch(true);
       };
     };
 
@@ -98,19 +118,52 @@ const EditHook = () => {
   }, [container]);
 
   const searchFor = (text: string): void => {
-    container.documentEditor.search.findAll(text);
+    container.documentEditor.searchModule.findAll(text);
   };
 
   const replaceWithThai = (thai: string): void => {
     container.documentEditor.searchModule.searchResults.replace(thai);
-    container.documentEditor.searchModule.searchResults.clear();
-    container.documentEditor.search.find(thai);
+
+    const editor = container.documentEditor;
+
+    setTimeout(
+      () => {
+        editor.search.findAll(thai);
+
+        const count = +editor.searchModule.searchResults.length;
+
+        moveToLastOccurrance(thai, count, editor);
+
+        // editor.searchModule.searchResults.clear();
+      },
+      100,
+      editor
+    );
+  };
+
+  const moveToLastOccurrance = (
+    text: string,
+    count: number,
+    editor: any
+  ): void => {
+    for (let index = 0; index < count; index++) {
+      editor.searchModule.findAll(text);
+    }
   };
 
   const replaceAll = (thai: string): void => {
-    container.documentEditor.searchModule.searchResults.replaceAll(thai);
-    triggerSearch(false);
-    // container.documentEditor.searchModule.searchResults.clear();
+    const editor = container.documentEditor;
+    if (editor) {
+      editor.searchModule.searchResults.replaceAll(thai);
+      triggerSearch(false, container);
+      setTimeout(
+        () => {
+          editor.searchModule.findAll(thai);
+        },
+        500,
+        editor
+      );
+    }
   };
 
   // Delay before search
@@ -132,16 +185,18 @@ const EditHook = () => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ): void => {
     e.preventDefault();
+
     const text = container.documentEditor.selection.text.toLowerCase().trim();
-    setCurrentWord(container.documentEditor.selection.text.trim());
+
     if (text.length > 1) {
+      setCurrentWord(container.documentEditor.selection.text.trim());
       const found: FoundText[] = [];
       englishTexts.forEach((englishText: string, index: number) => {
         // Check perfect match
         if (englishText.toLowerCase() === text.toLowerCase()) {
           found.push({
             word: uniqueKeysSortByUseCount[index],
-            count: 1,
+            count: 0,
           });
         }
         // Check for includes
@@ -167,11 +222,13 @@ const EditHook = () => {
         ></div>
         <div id="documenteditor-container-body" ref={editorRef}>
           <TranslationSideBar
+            loading={showLoading}
             container={container}
             replaceWithThai={replaceWithThai}
             replaceAll={replaceAll}
             searchFor={searchFor}
-            triggerSearch={triggerSearch}
+            triggerSearch={search}
+            // triggerSearch={triggerSearch}
             currentWord={currentWord}
           />
           <div onMouseUp={(e) => selectedText(e)}>

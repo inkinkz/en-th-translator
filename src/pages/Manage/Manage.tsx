@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { PatentTranslator } from "../../shared/types";
 import { SET_KEYS_TO_SHOW } from "../../shared/redux/actions";
 import { useDebouncedCallback } from "use-debounce";
+import Spinner from "react-bootstrap/Spinner";
 
 import AddTranslationModal from "../../components/AddTranslationModal/AddTranslationModal";
 
@@ -204,21 +205,25 @@ const Manage = (props: any) => {
             </div>
           </div>
           <div className="translation-items-container">
-            <div className="auto-sizer">
-              <AutoSizer>
-                {({ height, width }) => (
-                  <List
-                    style={{ overflowX: "hidden" }}
-                    height={height - 60}
-                    itemCount={keysToShow.length}
-                    itemSize={60}
-                    width={width}
-                  >
-                    {Row}
-                  </List>
-                )}
-              </AutoSizer>
-            </div>
+            {keysToShow.length > 0 ? (
+              <div className="auto-sizer">
+                <AutoSizer>
+                  {({ height, width }) => (
+                    <List
+                      style={{ overflowX: "hidden" }}
+                      height={height - 60}
+                      itemCount={keysToShow.length}
+                      itemSize={60}
+                      width={width}
+                    >
+                      {Row}
+                    </List>
+                  )}
+                </AutoSizer>
+              </div>
+            ) : (
+              <Spinner animation="border" variant="warning" />
+            )}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TranslationSideBar.scss";
 import { DocumentEditorContainerComponent } from "@syncfusion/ej2-react-documenteditor";
 import { useSelector } from "react-redux";
@@ -8,7 +8,10 @@ import { PatentTranslator } from "../../shared/types";
 import TranslationSideBarItem from "./TranslationSideBarItem";
 import AddTranslationModal from "../AddTranslationModal/AddTranslationModal";
 
+import Spinner from "react-bootstrap/Spinner";
+
 const TranslationSideBar = (props: {
+  loading: boolean;
   container: DocumentEditorContainerComponent;
   currentWord: string;
   searchFor: (text: string) => void;
@@ -17,6 +20,7 @@ const TranslationSideBar = (props: {
   triggerSearch: (move: boolean) => void;
 }) => {
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(props.loading);
 
   const foundTexts = useSelector((state: PatentTranslator) => state.foundTexts);
 
@@ -24,6 +28,11 @@ const TranslationSideBar = (props: {
   const handleShow = () => {
     setShow(true);
   };
+
+  useEffect(() => {
+    console.log(props.loading);
+    setLoading(props.loading);
+  }, [props.loading]);
 
   const Row = ({ index, style }: any) => {
     return (
@@ -58,33 +67,25 @@ const TranslationSideBar = (props: {
       </h2>
 
       <div className="suggestion-items-container">
-        {/* {foundTexts.map((keys: string, index: number) => {
-          return (
-            <TranslationSideBarItem
-              key={index}
-              current={keys}
-              searchFor={props.searchFor}
-              replaceAll={props.replaceAll}
-              replaceWithThai={props.replaceWithThai}
-            />
-          );
-        })} */}
-
-        <div className="auto-sizer">
-          <AutoSizer>
-            {({ height, width }) => (
-              <List
-                style={{ overflowX: "hidden" }}
-                height={height}
-                itemCount={foundTexts.length}
-                itemSize={100}
-                width={width}
-              >
-                {Row}
-              </List>
-            )}
-          </AutoSizer>
-        </div>
+        {loading ? (
+          <Spinner animation="border" variant="warning" />
+        ) : (
+          <div className="auto-sizer">
+            <AutoSizer>
+              {({ height, width }) => (
+                <List
+                  style={{ overflowX: "hidden" }}
+                  height={height}
+                  itemCount={foundTexts.length}
+                  itemSize={100}
+                  width={width}
+                >
+                  {Row}
+                </List>
+              )}
+            </AutoSizer>
+          </div>
+        )}
       </div>
 
       <div className="suggestion-footer" onClick={handleShow}>

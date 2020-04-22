@@ -12,6 +12,8 @@ const TranslationSideBar = (props: {
   const [english, setEnglish] = useState("");
   const [thai, setThai] = useState("");
 
+  const displayCount = props.count > 0 ? {} : { display: "none" };
+
   useEffect(() => {
     database
       .ref("translations")
@@ -52,7 +54,6 @@ const TranslationSideBar = (props: {
       >
         <div className="translation-pair-text">
           <span style={{ fontWeight: "bold" }}>{english}</span>
-          {/* &nbsp; =&gt; &nbsp;  */}
           &nbsp; &hArr; &nbsp;
           {thai}
         </div>
@@ -73,7 +74,7 @@ const TranslationSideBar = (props: {
           >
             Replace All
           </div>
-          <div className="count">
+          <div className="count" style={displayCount}>
             <span style={{ fontWeight: "bold" }}>{props.count}</span>
             &nbsp; time(s)
           </div>
