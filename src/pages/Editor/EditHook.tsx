@@ -49,7 +49,7 @@ const EditHook = () => {
         await triggerSearch(move, ct);
         setShowLoading(false);
       },
-      200,
+      100,
       ct
     );
   };
@@ -132,7 +132,7 @@ const EditHook = () => {
 
         const count = +editor.searchModule.searchResults.length;
 
-        moveToLastOccurrance(thai, count, editor);
+        moveToLastOccurrance(thai, count - 1, editor);
 
         // editor.searchModule.searchResults.clear();
       },
