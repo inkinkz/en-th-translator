@@ -77,7 +77,7 @@ const TranslationSideBar = (props: {
                   style={{ overflowX: "hidden" }}
                   height={height}
                   itemCount={foundTexts.length}
-                  itemSize={100}
+                  itemSize={120}
                   width={width}
                 >
                   {Row}
