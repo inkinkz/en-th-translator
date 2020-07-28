@@ -4,6 +4,8 @@
 
 ![preview](./preview/preview.png)
 
+![data-preview](./preview/data-preview.png)
+
 ## Features
 - Integrated [Syncfusion](https://www.syncfusion.com/) document editor.
 - Provide Thai translation suggestion for the corresponding English word/phrase pair.
