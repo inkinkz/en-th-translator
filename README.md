@@ -1,3 +1,4 @@
-## 2019 ICE Senior Project - Patent Translator
+# 2019 ICE Senior Project - Patent Translator
 
-https://patent-translation-data.web.app/
+[Online Version](https://patent-translation-data.web.app/#/edit)
+
